@@ -1,14 +1,23 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { 
-  SiReact, SiNodedotjs, SiTypescript, SiPostgresql, SiTailwindcss, SiJavascript,
-  SiGithub, SiLinkedin, SiTelegram 
+
+import {
+  SiReact,
+  SiNodedotjs,
+  SiTypescript,
+  SiPostgresql,
+  SiTailwindcss,
+  SiJavascript,
+  SiGithub,
+  // SiLinkedin,
+  SiTelegram
 } from "react-icons/si";
+import { FaLinkedin } from "react-icons/fa";
 import { Mail, ArrowDown, ExternalLink, Code2, Database, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Section, SectionHeader } from "@/components/Section";
 import { SkillCard } from "@/components/SkillCard";
-import { ContactForm } from "@/components/ContactForm";
-import profileImage from "@assets/Gemini_Generated_Image_6nrzct6nrzct6nrz_1766385092684.png";
+// import { ContactForm } from "@/components/ContactForm";
+import profileImage from "@assets/pastphole.png";
 
 export default function Home() {
   const { scrollYProgress } = useScroll();
@@ -35,7 +44,7 @@ export default function Home() {
             <SiGithub className="w-5 h-5" />
           </a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white transition-colors">
-            <SiLinkedin className="w-5 h-5" />
+            <FaLinkedin className="w-5 h-5" />
           </a>
           <a href="https://t.me" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white transition-colors">
             <SiTelegram className="w-5 h-5" />
@@ -311,7 +320,7 @@ export default function Home() {
                 className="flex items-center gap-4 p-4 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors border border-white/5"
               >
                 <div className="w-12 h-12 rounded-full bg-blue-700/20 flex items-center justify-center text-blue-700">
-                  <SiLinkedin className="w-6 h-6" />
+                  <FaLinkedin className="w-6 h-6" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">LinkedIn</p>
@@ -321,7 +330,7 @@ export default function Home() {
             </div>
           </div>
           
-          <ContactForm />
+          {/* <ContactForm /> */}
         </div>
       </Section>
 
