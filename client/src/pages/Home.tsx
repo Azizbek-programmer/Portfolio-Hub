@@ -8,7 +8,6 @@ import {
   SiTailwindcss,
   SiJavascript,
   SiGithub,
-  // SiLinkedin,
   SiTelegram
 } from "react-icons/si";
 import { FaLinkedin } from "react-icons/fa";
@@ -16,7 +15,6 @@ import { Mail, ArrowDown, ExternalLink, Code2, Database, Layout } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Section, SectionHeader } from "@/components/Section";
 import { SkillCard } from "@/components/SkillCard";
-// import { ContactForm } from "@/components/ContactForm";
 import profileImage from "@assets/pastphole.png";
 
 export default function Home() {
