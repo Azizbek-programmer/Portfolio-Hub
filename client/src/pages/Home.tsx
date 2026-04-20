@@ -103,121 +103,114 @@ export default function Home() {
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 z-0 opacity-10 pointer-events-none"
-          style={{ y: backgroundY }}
-        >
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80')] bg-cover bg-fixed bg-center" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#050505]" />
-        </motion.div>
+      {/* Completely New Hero Section - Cinematic Centered Design */}
+      <section className="relative min-h-[100dvh] flex flex-col items-center justify-center pt-20 pb-10 overflow-hidden">
+        {/* Dynamic Architectural Grid Background */}
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_10%,transparent_100%)] pointer-events-none"></div>
 
         <motion.div 
           style={{ scale: heroScale }}
-          className="container px-4 z-10 grid md:grid-cols-2 gap-12 items-center transform-gpu"
+          className="container px-4 sm:px-6 z-10 flex flex-col items-center justify-center text-center max-w-5xl mx-auto"
         >
+          {/* Top Avatar Capsule */}
           <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
+            initial={{ opacity: 0, y: -30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-3 p-1.5 pr-6 bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-full mb-10 shadow-[0_10px_30px_rgba(0,0,0,0.5)] cursor-pointer hover:bg-white/[0.08] transition-colors"
           >
-            <motion.div 
-              variants={textFadeUp}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary font-medium mb-6 shadow-[0_0_20px_rgba(var(--primary),0.2)]"
-            >
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20 bg-black/50">
+              <img src={profileImage} alt="Avatar" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-sm font-semibold text-gray-200 flex items-center gap-2">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
               </span>
               {t("greeting")}
-            </motion.div>
-            
-            <motion.h1 
-              variants={textFadeUp}
-              className="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-[1.1] mb-6 tracking-tight drop-shadow-2xl" 
-            >
-              {t("heroTitle1")}
-              <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-accent animate-gradient bg-[length:300%_300%] inline-block">
-                {t("heroTitleHighlight")}
-              </span>
-              {t("heroTitle2")}
-            </motion.h1>
-            
-            <motion.p 
-              variants={textFadeUp}
-              className="text-lg md:text-xl text-gray-400 mb-10 max-w-lg leading-relaxed font-light"
-            >
-              {t("heroDesc")}
-            </motion.p>
-
-            <motion.div variants={textFadeUp} className="flex flex-wrap gap-5">
-              <Button 
-                onClick={scrollToContact}
-                className="group h-14 px-8 rounded-full text-lg bg-white text-black hover:bg-gray-200 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:scale-105"
-              >
-                {t("contactBtn")} 
-                <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </Button>
-              <Button 
-                variant="outline"
-                className="group h-14 px-8 rounded-full text-lg border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-white/40"
-              >
-                {t("myWorksBtn")} 
-                <ExternalLink className="ml-2 w-4 h-4 group-hover:rotate-45 transition-transform" />
-              </Button>
-            </motion.div>
+            </span>
           </motion.div>
 
-          {/* Right side floating image */}
-          <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            animate="show"
-            className="relative transform-gpu"
+          {/* Huge Cinematic Title */}
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
+            className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-extrabold tracking-[-0.04em] text-white leading-[1.05] drop-shadow-2xl"
           >
-            <div className="relative z-10 w-full max-w-[420px] mx-auto aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] group">
-              <motion.img 
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6 }}
-                src={profileImage} 
-                alt="Profile" 
-                className="w-full h-full object-cover transition-transform duration-700 will-change-transform"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
-            </div>
-            
-            {/* Extremely smooth floating elements */}
-            <motion.div 
-              animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="absolute -top-6 -right-6 lg:-top-12 lg:-right-12 bg-white/5 backdrop-blur-xl p-5 rounded-3xl border border-white/10 shadow-2xl z-20 will-change-transform"
+            {t("heroTitle1")}
+            <br />
+            <span className="relative inline-block mt-2">
+              <span className="absolute -inset-4 bg-gradient-to-r from-blue-600 via-teal-500 to-emerald-500 blur-3xl opacity-30 pointer-events-none"></span>
+              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-200 to-teal-400">
+                {t("heroTitleHighlight")}
+              </span>
+            </span>
+            <br />
+            {t("heroTitle2")}
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="text-lg md:text-2xl text-gray-400 max-w-2xl leading-relaxed font-light mt-8"
+          >
+            {t("heroDesc")}
+          </motion.p>
+
+          {/* Modern Action Dock */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, type: "spring", bounce: 0.4 }}
+            className="mt-12 flex flex-col sm:flex-row items-center gap-3 bg-white/[0.04] p-2.5 rounded-3xl sm:rounded-full border border-white/5 backdrop-blur-xl shadow-2xl w-full sm:w-auto"
+          >
+            <Button 
+              onClick={scrollToContact}
+              className="group h-14 sm:h-16 px-8 sm:px-10 rounded-2xl sm:rounded-full text-base sm:text-lg font-semibold bg-white text-black hover:bg-gray-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)] w-full sm:w-auto overflow-hidden relative"
             >
-              <Code2 className="w-10 h-10 text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
-            </motion.div>
-            
-            <motion.div 
-              animate={{ y: [0, 30, 0], rotate: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 1.5 }}
-              className="absolute -bottom-6 -left-6 lg:-bottom-12 lg:-left-12 bg-white/5 backdrop-blur-xl p-5 rounded-3xl border border-white/10 shadow-2xl z-20 will-change-transform"
+              <span className="relative z-10 flex items-center gap-2">
+                {t("contactBtn")} 
+                <Send className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-white opacity-0 group-hover:opacity-100 transition-opacity" />
+            </Button>
+            <Button 
+              variant="ghost"
+              className="group h-14 sm:h-16 px-8 sm:px-10 rounded-2xl sm:rounded-full text-base sm:text-lg font-medium text-white hover:bg-white/10 hover:text-white w-full sm:w-auto transition-all"
             >
-              <Database className="w-10 h-10 text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)]" />
-            </motion.div>
+              {t("myWorksBtn")} 
+              <ExternalLink className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:rotate-12 transition-transform opacity-70 group-hover:opacity-100" />
+            </Button>
+          </motion.div>
+          
+          {/* Tech Stack Indicators */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 1 }}
+            className="mt-16 flex flex-wrap justify-center items-center gap-6 sm:gap-10 text-white/20"
+          >
+             <SiReact className="w-6 h-6 sm:w-7 sm:h-7 hover:text-cyan-400 hover:scale-125 transition-all duration-300" />
+             <SiTypescript className="w-6 h-6 sm:w-7 sm:h-7 hover:text-blue-500 hover:scale-125 transition-all duration-300" />
+             <SiNodedotjs className="w-6 h-6 sm:w-7 sm:h-7 hover:text-green-500 hover:scale-125 transition-all duration-300" />
+             <SiTailwindcss className="w-6 h-6 sm:w-7 sm:h-7 hover:text-cyan-300 hover:scale-125 transition-all duration-300" />
+             <SiPostgresql className="w-6 h-6 sm:w-7 sm:h-7 hover:text-blue-400 hover:scale-125 transition-all duration-300" />
           </motion.div>
         </motion.div>
 
         <motion.div 
           style={{ opacity: opacityText }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden md:block"
         >
           <motion.div
-             animate={{ y: [0, 15, 0] }}
+             animate={{ y: [0, 10, 0] }}
              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-             className="flex flex-col items-center gap-2"
+             className="flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-100 transition-opacity"
           >
-             <span className="text-xs uppercase tracking-widest text-muted-foreground font-semibold">Scroll</span>
-             <ArrowDown className="w-5 h-5 text-white/50" />
+             <ArrowDown className="w-6 h-6 text-white" />
           </motion.div>
         </motion.div>
       </section>

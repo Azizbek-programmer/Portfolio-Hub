@@ -122,7 +122,7 @@ interface I18nContextProps {
 const I18nContext = createContext<I18nContextProps | undefined>(undefined);
 
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
-  const [lang, setLang] = useState<Language>("uz");
+  const [lang, setLang] = useState<Language>("en");
 
   const t = (key: keyof typeof translations): string => {
     return translations[key]?.[lang] || (key as string);
