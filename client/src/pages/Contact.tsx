@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Send, Mail } from "lucide-react";
+import { Github, Linkedin, Send, Mail, ExternalLink } from "lucide-react";
 import profileImage from "@assets/Gemini_Generated_Image_roopwbroopwbroop.png";
 
 export default function Contact() {
@@ -21,7 +21,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0f1a] flex items-center justify-center overflow-hidden relative font-sans">
+    <div className="min-h-screen bg-[#0b0f1a] flex items-center justify-center overflow-x-hidden overflow-y-auto relative font-sans py-12 md:py-0">
       {/* Animated Background layers */}
       <motion.div 
         className="absolute inset-0 opacity-40 pointer-events-none"
@@ -47,18 +47,18 @@ export default function Contact() {
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-        className="relative z-10 backdrop-blur-xl bg-white/[0.04] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-[2.5rem] p-10 md:p-14 w-[95%] max-w-[1000px] flex flex-col md:flex-row justify-between items-center gap-12 group overflow-hidden"
+        className="relative z-10 backdrop-blur-xl bg-white/[0.04] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-[2rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-14 w-[95%] max-w-[1000px] flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12 group overflow-hidden my-12"
       >
         {/* Shine effect on card */}
         <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
 
         {/* Left Content */}
-        <div className="max-w-lg w-full z-10">
+        <div className="max-w-lg w-full z-10 text-center md:text-left flex flex-col items-center md:items-start">
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
-            className="relative w-24 h-24 mb-8 group/avatar cursor-pointer"
+            className="relative w-20 h-20 md:w-24 md:h-24 mb-6 md:mb-8 group/avatar cursor-pointer"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-teal-400 rounded-full blur-xl opacity-40 group-hover/avatar:opacity-70 transition-opacity duration-500 animate-pulse" />
             <motion.img
@@ -76,23 +76,23 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <p className="text-blue-400 tracking-[0.25em] text-xs mb-4 font-semibold uppercase flex items-center gap-3">
-              <span className="w-10 h-[2px] bg-gradient-to-r from-blue-400 to-transparent inline-block"></span>
+            <p className="text-blue-400 tracking-[0.2em] md:tracking-[0.25em] text-[10px] md:text-xs mb-3 md:mb-4 font-semibold uppercase flex items-center justify-center md:justify-start gap-2 md:gap-3">
+              <span className="w-6 md:w-10 h-[2px] bg-gradient-to-r from-blue-400 to-transparent inline-block"></span>
               Azizbek Mirzavaliyev
             </p>
 
-            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6 tracking-tight">
-              Let's build <br/>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight mb-4 md:mb-6 tracking-tight">
+              Let's build <br className="hidden sm:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-300 to-green-400">
                 something amazing
               </span>
             </h1>
 
-            <p className="text-gray-300 text-lg leading-relaxed mb-2 font-light">
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-2 font-light">
               I design and build high-performance web systems that scale with
               real business needs.
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed font-light">
+            <p className="text-gray-400 text-xs md:text-sm leading-relaxed font-light">
               Focused on clean architecture, speed, and long-term reliability.
             </p>
           </motion.div>
@@ -100,15 +100,24 @@ export default function Contact() {
 
         {/* Right buttons */}
         <motion.div 
-          className="flex flex-col gap-4 justify-center w-full md:w-[320px] z-10"
+          className="flex flex-col gap-3 md:gap-4 w-full md:w-[320px] z-10"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           {[
             {
+              label: "Review Website",
+              icon: <ExternalLink size={20} />,
+              bg: "hover:bg-emerald-500/10",
+              border: "hover:border-emerald-400",
+              text: "hover:text-emerald-400",
+              shadow: "hover:shadow-[0_0_20px_rgba(52,211,153,0.2)]",
+              link: "https://portfolio-hub-lime-xi.vercel.app/"
+            },
+            {
               label: "Github",
-              icon: <Github size={22} />,
+              icon: <Github size={20} />,
               bg: "hover:bg-white/10",
               border: "hover:border-gray-300",
               text: "hover:text-white",
@@ -117,7 +126,7 @@ export default function Contact() {
             },
             {
               label: "LinkedIn",
-              icon: <Linkedin size={22} />,
+              icon: <Linkedin size={20} />,
               bg: "hover:bg-blue-600/10",
               border: "hover:border-blue-500",
               text: "hover:text-blue-400",
@@ -126,7 +135,7 @@ export default function Contact() {
             },
             {
               label: "Telegram",
-              icon: <Send size={22} />,
+              icon: <Send size={20} />,
               bg: "hover:bg-teal-500/10",
               border: "hover:border-teal-400",
               text: "hover:text-teal-400",
@@ -135,7 +144,7 @@ export default function Contact() {
             },
             {
               label: "Email",
-              icon: <Mail size={22} />,
+              icon: <Mail size={20} />,
               bg: "hover:bg-purple-500/10",
               border: "hover:border-purple-400",
               text: "hover:text-purple-400",
@@ -151,9 +160,9 @@ export default function Contact() {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.03, x: -5 }}
               whileTap={{ scale: 0.98 }}
-              className={`group flex items-center justify-between gap-4 px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-gray-300 shadow-lg transition-all duration-300 ${btn.bg} ${btn.border} ${btn.text} ${btn.shadow} backdrop-blur-md`}
+              className={`group flex items-center justify-between gap-3 px-5 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 text-gray-300 shadow-lg transition-all duration-300 ${btn.bg} ${btn.border} ${btn.text} ${btn.shadow} backdrop-blur-md`}
             >
-              <span className="font-medium tracking-wide">{btn.label}</span>
+              <span className="font-medium tracking-wide text-sm md:text-base">{btn.label}</span>
               <motion.div
                 initial={{ rotate: 0 }}
                 whileHover={{ rotate: 12, scale: 1.15 }}
