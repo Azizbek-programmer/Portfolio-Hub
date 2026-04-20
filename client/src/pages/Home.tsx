@@ -90,13 +90,13 @@ export default function Home() {
             </select>
           </div>
           <div className="hidden md:flex gap-4">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white hover:scale-110 transition-all">
+            <a href="https://github.com/Azizbek-programmer" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white hover:scale-110 transition-all">
               <SiGithub className="w-5 h-5" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white hover:scale-110 transition-all">
+            <a href="https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white hover:scale-110 transition-all">
               <FaLinkedin className="w-5 h-5" />
             </a>
-            <a href="https://t.me" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white hover:scale-110 transition-all">
+            <a href="https://t.me/BEK_AIR0" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white hover:scale-110 transition-all">
               <SiTelegram className="w-5 h-5" />
             </a>
           </div>
@@ -345,9 +345,9 @@ export default function Home() {
             <h3 className="text-3xl font-bold font-display tracking-tight text-white mb-8">{t("contactInfoTitle")}</h3>
             <div className="space-y-6">
               {[
-                { i:<Mail/>, l:"Email", v:"contact@example.com", h:"mailto:contact@example.com", c:"text-white bg-white/10" },
-                { i:<SiTelegram/>, l:"Telegram", v:"@username", h:"https://t.me/username", c:"text-blue-400 bg-blue-500/20" },
-                { i:<FaLinkedin/>, l:"LinkedIn", v:"/in/username", h:"https://linkedin.com/in/username", c:"text-blue-600 bg-blue-700/20" }
+                { i:<Mail/>, l:"Email", v:"azizbekmirzavaliyev31@gmail.com", h:"mailto:azizbekmirzavaliyev31@gmail.com", c:"text-white bg-white/10" },
+                { i:<SiTelegram/>, l:"Telegram", v:"@BEK_AIR0", h:"https://t.me/BEK_AIR0", c:"text-blue-400 bg-blue-500/20" },
+                { i:<FaLinkedin/>, l:"LinkedIn", v:"Azizbek Mirzavaliyev", h:"https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/", c:"text-blue-600 bg-blue-700/20" }
               ].map((item, idx) => (
               <motion.a 
                 key={idx}

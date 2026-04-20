@@ -113,7 +113,7 @@ export default function Contact() {
               border: "hover:border-gray-300",
               text: "hover:text-white",
               shadow: "hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]",
-              link: "https://github.com"
+              link: "https://github.com/Azizbek-programmer"
             },
             {
               label: "LinkedIn",
@@ -122,7 +122,7 @@ export default function Contact() {
               border: "hover:border-blue-500",
               text: "hover:text-blue-400",
               shadow: "hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]",
-              link: "https://linkedin.com"
+              link: "https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/"
             },
             {
               label: "Telegram",
@@ -131,7 +131,7 @@ export default function Contact() {
               border: "hover:border-teal-400",
               text: "hover:text-teal-400",
               shadow: "hover:shadow-[0_0_20px_rgba(45,212,191,0.2)]",
-              link: "https://t.me"
+              link: "https://t.me/BEK_AIR0"
             },
             {
               label: "Email",
@@ -140,7 +140,7 @@ export default function Contact() {
               border: "hover:border-purple-400",
               text: "hover:text-purple-400",
               shadow: "hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]",
-              link: "mailto:contact@example.com"
+              link: "mailto:azizbekmirzavaliyev31@gmail.com"
             },
           ].map((btn, i) => (
             <motion.a
