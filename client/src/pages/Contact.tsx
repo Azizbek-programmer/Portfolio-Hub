@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Send, Mail, ExternalLink } from "lucide-react";
+import { SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker } from "react-icons/si";
 import profileImage from "@assets/Gemini_Generated_Image_roopwbroopwbroop.png";
 
 export default function Contact() {
@@ -20,8 +21,10 @@ export default function Contact() {
     visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 70, damping: 10 } }
   };
 
+  const techSkills = [SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker];
+
   return (
-    <div className="min-h-screen bg-[#0b0f1a] flex items-center justify-center overflow-x-hidden overflow-y-auto relative font-sans py-12 md:py-0">
+    <div className="min-h-[100dvh] bg-[#0b0f1a] flex flex-col items-center justify-center overflow-x-hidden overflow-y-auto relative font-sans py-12 md:py-16">
       {/* Animated Background layers */}
       <motion.div 
         className="absolute inset-0 opacity-40 pointer-events-none"
@@ -175,6 +178,43 @@ export default function Contact() {
           ))}
         </motion.div>
       </motion.div>
+
+      {/* Infinite 3D Auto-Scroll Skills Marquee */}
+      <div className="w-full max-w-[1400px] mt-20 relative z-10 overflow-hidden px-4 flex flex-col items-center" style={{ perspective: "1200px" }}>
+        
+        <motion.p 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ delay: 1 }}
+          className="text-gray-500 uppercase tracking-[0.3em] text-xs font-semibold mb-8 text-center"
+        >
+          Texnologiyalar & Ko'nikmalar
+        </motion.p>
+
+        <div className="relative w-full overflow-hidden flex items-center">
+          {/* Fading Edges */}
+          <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-[#0b0f1a] to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-[#0b0f1a] to-transparent z-20 pointer-events-none" />
+          
+          <motion.div
+            className="flex gap-12 md:gap-20 items-center justify-start w-max py-4"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 30, ease: "linear", repeat: Infinity }}
+            style={{ transformStyle: "preserve-3d" }}
+          >
+            {/* Render array twice to create seamless loop */}
+            {[...techSkills, ...techSkills, ...techSkills, ...techSkills].map((Icon, idx) => (
+              <div 
+                key={idx} 
+                className="group flex items-center justify-center text-gray-600 hover:text-white transition-all duration-500 cursor-pointer"
+                style={{ transform: "rotateX(15deg) translateZ(0)" }}
+              >
+                <Icon className="w-12 h-12 md:w-16 md:h-16 filter drop-shadow-none group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.7)] group-hover:-translate-y-3 group-hover:scale-110 transition-all duration-300" />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }
