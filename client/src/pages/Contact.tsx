@@ -331,13 +331,14 @@ export default function Contact() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-          className="relative aspect-[1/1.414] w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl group"
+          className="relative h-[550px] sm:h-auto sm:aspect-[1/1.414] w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl group touch-pan-y"
         >
           {/* Native PDF Viewer for better reliability */}
           <iframe 
-            src="/Azizbek_Mirzavaliyev.pdf#view=FitH" 
-            className="w-full h-full border-none rounded-[2rem]"
+            src="/Azizbek_Mirzavaliyev.pdf#view=FitH&scrollbar=0&toolbar=0&navpanes=0" 
+            className="w-full h-full border-none rounded-[2rem] pointer-events-auto"
             title="Azizbek Mirzavaliyev Resume"
+            style={{ overflow: 'hidden' }}
           />
           
           {/* Glassmorphism Controls */}
