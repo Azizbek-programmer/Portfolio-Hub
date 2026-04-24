@@ -342,12 +342,12 @@ export default function Contact() {
           />
           
           {/* Glassmorphism Controls */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl z-30 shadow-2xl">
+          <div className="absolute bottom-5 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl z-30 shadow-2xl w-[85%] sm:w-auto">
             <a 
               href="https://www.canva.com/design/DAHEjuRHL7c/view?utm_content=DAHEjuRHL7c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" 
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center gap-2"
+              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               <ExternalLink size={18} />
               To'liq ko'rish (Canva)
@@ -355,7 +355,7 @@ export default function Contact() {
             <a 
               href="/Azizbek_Mirzavaliyev.pdf" 
               download="Azizbek_Mirzavaliyev_Resume.pdf"
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
+              className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               <Send size={18} className="rotate-90" />
               Yuklab olish
