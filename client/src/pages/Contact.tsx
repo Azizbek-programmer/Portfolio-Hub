@@ -108,7 +108,7 @@ export default function Contact() {
   const rotateY = useTransform(mouseXSpring, [-300, 300], [-7, 7]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || window.innerWidth < 1024) return;
     const rect = containerRef.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -233,8 +233,8 @@ export default function Contact() {
                 <span className="text-blue-400 font-mono text-sm tracking-widest uppercase">Senior Web Developer</span>
               </motion.div>
 
-              <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tighter leading-[0.9]">
-                Professional <br />
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tighter leading-[1.1] md:leading-[0.9]">
+                Professional <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 inline-block mt-2">
                   Solutions.
                 </span>
@@ -333,24 +333,23 @@ export default function Contact() {
           transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
           className="relative aspect-[1/1.414] w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl group"
         >
-          {/* Canva Embed Viewer */}
+          {/* Native PDF Viewer for better reliability */}
           <iframe 
-            src="https://www.canva.com/design/DAHEjuRHL7c/view?embed" 
-            className="w-full h-full border-none"
+            src="/Azizbek_Mirzavaliyev.pdf#view=FitH" 
+            className="w-full h-full border-none rounded-[2rem]"
             title="Azizbek Mirzavaliyev Resume"
-            allowFullScreen
           />
           
           {/* Glassmorphism Controls */}
           <div className="absolute bottom-5 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl z-30 shadow-2xl w-[85%] sm:w-auto">
             <a 
-              href="https://www.canva.com/design/DAHEjuRHL7c/view?utm_content=DAHEjuRHL7c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" 
+              href="/Azizbek_Mirzavaliyev.pdf" 
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
             >
               <ExternalLink size={18} />
-              To'liq ko'rish (Canva)
+              To'liq ko'rish
             </a>
             <a 
               href="/Azizbek_Mirzavaliyev.pdf" 
