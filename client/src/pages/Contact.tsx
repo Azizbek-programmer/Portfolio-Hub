@@ -6,31 +6,42 @@ import profileImage from "@assets/Gemini_Generated_Image_roopwbroopwbroop.png";
 
 // --- Components ---
 
-const ParticleBackground = () => {
+const MeteorGrid = () => {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(30)].map((_, i) => (
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {/* Base Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_20%,transparent_100%)]" />
+      
+      {/* Meteors */}
+      {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-[2px] h-[2px] bg-blue-400/20 rounded-full"
-          initial={{
-            x: `${Math.random() * 100}%`,
-            y: `${Math.random() * 100}%`,
-            opacity: Math.random() * 0.5 + 0.2,
-          }}
-          animate={{
-            y: ["0%", "100%"],
-            opacity: [0, 0.8, 0],
-            scale: [0.5, 1.2, 0.5],
-          }}
+          className="absolute h-[1px] w-[80px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-40"
+          initial={{ x: "-10%", y: Math.random() * 100 + "%", rotate: -45 }}
+          animate={{ x: "120%", y: (Math.random() * 100 + 20) + "%" }}
           transition={{
-            duration: Math.random() * 15 + 10,
+            duration: Math.random() * 2 + 2,
             repeat: Infinity,
             ease: "linear",
-            delay: Math.random() * 10,
+            delay: i * 3
           }}
         />
       ))}
+    </div>
+  );
+};
+
+const ProfileAura = () => {
+  return (
+    <div className="absolute inset-0 -z-10 flex items-center justify-center">
+      <motion.div
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1]
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="w-48 h-48 md:w-64 md:h-64 bg-blue-500 rounded-full blur-[60px]"
+      />
     </div>
   );
 };
@@ -160,7 +171,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-[100dvh] bg-[#050810] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-8 sm:py-16 scroll-smooth">
-      <ParticleBackground />
+      <MeteorGrid />
 
       {/* Hero Background Glows */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -204,6 +215,7 @@ export default function Contact() {
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-110 hover:scale-100"
                   />
                 </div>
+                <ProfileAura />
               </motion.div>
               <div className="absolute -bottom-2 -right-2 bg-blue-500 p-2 rounded-lg shadow-lg">
                 <Sparkles className="text-white w-4 h-4 animate-pulse" />
