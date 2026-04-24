@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Github, Linkedin, Send, Mail, ExternalLink, MessageSquare, Sparkles } from "lucide-react";
 import { SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker } from "react-icons/si";
@@ -46,6 +46,91 @@ const ProfileAura = () => {
   );
 };
 
+import { createClient } from "@supabase/supabase-js";
+
+// Supabase konfiguratsiyasi
+const SUPABASE_URL = "https://xgvjzxpvlfupdakwldcc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_AvTn0I_P_shvnPORBiYEpg_5ITV3-mE";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const VisitorCounter = () => {
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Unikal tashrifni tekshirish
+    const hasVisited = localStorage.getItem('contact_page_visited');
+    
+    const fetchCount = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('stats')
+          .select('value')
+          .eq('id', 'contact_views')
+          .single();
+        
+        if (error) throw error;
+        if (data) setCount(data.value);
+      } catch (err) {
+        console.error("Sanoqni olishda xatolik:", err);
+      }
+    };
+
+    const handleVisit = async () => {
+      if (!hasVisited) {
+        try {
+          // Unikal bo'lsa sanoqni oshirish (RPC funksiyasi orqali)
+          const { error } = await supabase.rpc('increment_visitor_count');
+          if (error) throw error;
+          
+          localStorage.setItem('contact_page_visited', 'true');
+          await fetchCount();
+        } catch (err) {
+          console.error("Sanoqni oshirishda xatolik:", err);
+          await fetchCount(); // Xatolik bo'lsa ham joriy sanoqni ko'rsatish
+        }
+      } else {
+        await fetchCount();
+      }
+    };
+
+    handleVisit();
+
+    // Real-time obuna (kimdir kirsa hamma ko'radi)
+    const channel = supabase
+      .channel('public:stats')
+      .on('postgres_changes', 
+        { event: 'UPDATE', schema: 'public', table: 'stats', filter: "id=eq.contact_views" }, 
+        payload => {
+          setCount(payload.new.value);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/20 backdrop-blur-xl shadow-2xl"
+    >
+      <div className="relative flex h-2 w-2">
+        <div className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></div>
+        <div className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></div>
+      </div>
+      <div className="flex items-baseline gap-1.5">
+        <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Visitors</span>
+        <span className="text-sm font-bold text-white tabular-nums tracking-tight">
+          {count !== null ? count.toLocaleString() : "..."}
+        </span>
+      </div>
+    </motion.div>
+  );
+};
+
 const SocialCard = ({ children, href, btn }: { children: React.ReactNode, href: string, btn: any }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -66,8 +151,11 @@ const SocialCard = ({ children, href, btn }: { children: React.ReactNode, href: 
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      className="group relative flex items-center justify-between p-2.5 pl-3 pr-6 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-2xl transition-all duration-500 hover:bg-white/[0.07] hover:border-white/20 overflow-hidden"
+      className="group relative flex items-center justify-between p-2.5 pl-3 pr-6 rounded-full bg-white/[0.03] border border-white/20 backdrop-blur-2xl transition-all duration-500 hover:bg-white/[0.08] hover:border-white/40 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]"
     >
+      {/* Real Glass Reflection (Glint) */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+      
       {/* Spotlight Effect */}
       <motion.div
         className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -80,19 +168,19 @@ const SocialCard = ({ children, href, btn }: { children: React.ReactNode, href: 
       />
 
       <div className="flex items-center gap-4 relative z-10">
-        <div className={`w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 group-hover:scale-110 ${btn.text}`}>
+        <div className={`w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 group-hover:scale-110 shadow-inner ${btn.text}`}>
           {btn.icon}
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-          <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors duration-500 tracking-wide">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+          <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-500 tracking-wide">
             {btn.label}
           </span>
         </div>
       </div>
 
-      <div className="relative z-10 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-500">
-        <ExternalLink size={14} className="text-gray-500 group-hover:text-white" />
+      <div className="relative z-10 opacity-40 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-500">
+        <ExternalLink size={14} className="text-white" />
       </div>
     </motion.a>
   );
@@ -373,6 +461,7 @@ export default function Contact() {
         <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
         <span>© 2024 Azizbek</span>
       </div>
+      <VisitorCounter />
     </div>
   );
 }
