@@ -1,7 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import fs from "fs";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+
+// Auto-copy resume from script to public for direct download
+const resumeSrc = path.resolve(process.cwd(), "script", "Azizbek_Mirzavaliyev (2).pdf");
+const publicDir = path.resolve(process.cwd(), "client", "public");
+const resumeDest = path.resolve(publicDir, "Azizbek_Mirzavaliyev.pdf");
+
+if (fs.existsSync(resumeSrc)) {
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+  fs.copyFileSync(resumeSrc, resumeDest);
+}
 
 export default defineConfig({
   plugins: [

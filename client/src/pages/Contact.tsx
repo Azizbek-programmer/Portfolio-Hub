@@ -35,40 +35,61 @@ const ParticleBackground = () => {
   );
 };
 
-const MagneticLink = ({ children, href, className, btn }: { children: React.ReactNode, href: string, className: string, btn: any }) => {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+const SocialCard = ({ children, href, btn }: { children: React.ReactNode, href: string, btn: any }) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  const handleMouse = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const { clientX, clientY } = e;
-    const { height, width, left, top } = ref.current!.getBoundingClientRect();
-    const x = clientX - (left + width / 2);
-    const y = clientY - (top + height / 2);
-    setPosition({ x, y });
+  const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
   };
-
-  const reset = () => {
-    setPosition({ x: 0, y: 0 });
-  };
-
-  const { x, y } = position;
 
   return (
     <motion.a
-      ref={ref}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseMove={handleMouse}
-      onMouseLeave={reset}
-      animate={{ x: x * 0.3, y: y * 0.3 }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className={`${className} relative overflow-hidden group`}
+      download={href.endsWith('.pdf') ? href.split('/').pop() : undefined}
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      className="group relative flex items-center justify-between p-6 rounded-3xl bg-[#080a12] border border-white/[0.04] transition-all duration-500 hover:border-white/10 overflow-hidden"
     >
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className={`absolute inset-0 bg-gradient-to-r opacity-10 ${btn.glowColor}`} />
+      {/* Spotlight Effect */}
+      <motion.div
+        className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: useTransform(
+            [mouseX, mouseY],
+            ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`
+          ),
+        }}
+      />
+
+      {/* Brand Accent Glow */}
+      <div className={`absolute -right-4 -top-4 w-24 h-24 blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-br ${btn.glowColor}`} />
+
+      <div className="flex items-center gap-6 relative z-10">
+        <div className={`w-14 h-14 flex items-center justify-center rounded-2xl bg-white/[0.03] border border-white/[0.05] transition-all duration-500 group-hover:scale-105 group-hover:bg-white/[0.07] ${btn.text}`}>
+          {btn.icon}
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-lg font-semibold text-gray-400 group-hover:text-white transition-colors duration-500 tracking-tight">
+            {btn.label}
+          </span>
+          <span className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.2em]">
+            {btn.subLabel}
+          </span>
+        </div>
       </div>
-      {children}
+
+      <div className="relative z-10 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white/[0.03] border border-white/[0.05] text-gray-500 group-hover:text-white transition-colors">
+          <ExternalLink size={16} />
+        </div>
+      </div>
     </motion.a>
   );
 };
@@ -108,54 +129,44 @@ export default function Contact() {
 
   const socialButtons = [
     {
-      label: "Portfolio Hub",
-      icon: <ExternalLink size={20} />,
-      bg: "hover:bg-emerald-500/10",
-      border: "hover:border-emerald-400",
-      text: "hover:text-emerald-400",
-      shadow: "hover:shadow-[0_0_20px_rgba(52,211,153,0.2)]",
+      label: "Portfolio",
+      subLabel: "Showcase Hub",
+      icon: <SiFramer size={24} />,
+      text: "text-emerald-400",
       glowColor: "from-emerald-500 to-teal-400",
       link: "https://portfolio-hub-lime-xi.vercel.app/"
     },
     {
-      label: "GitHub Profile",
-      icon: <Github size={20} />,
-      bg: "hover:bg-white/10",
-      border: "hover:border-gray-300",
-      text: "hover:text-white",
-      shadow: "hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]",
+      label: "GitHub",
+      subLabel: "Open Source",
+      icon: <SiGithub size={24} />,
+      text: "text-white",
       glowColor: "from-gray-400 to-white",
       link: "https://github.com/Azizbek-programmer"
     },
     {
-      label: "LinkedIn Professional",
-      icon: <Linkedin size={20} />,
-      bg: "hover:bg-blue-600/10",
-      border: "hover:border-blue-500",
-      text: "hover:text-blue-400",
-      shadow: "hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]",
+      label: "LinkedIn",
+      subLabel: "Professional",
+      icon: <Linkedin size={24} />,
+      text: "text-blue-400",
       glowColor: "from-blue-600 to-blue-400",
       link: "https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/"
     },
     {
-      label: "Telegram Channel",
-      icon: <Send size={20} />,
-      bg: "hover:bg-teal-500/10",
-      border: "hover:border-teal-400",
-      text: "hover:text-teal-400",
-      shadow: "hover:shadow-[0_0_20px_rgba(45,212,191,0.2)]",
-      glowColor: "from-teal-500 to-blue-400",
+      label: "Telegram",
+      subLabel: "Contact Me",
+      icon: <Send size={24} />,
+      text: "text-sky-400",
+      glowColor: "from-sky-500 to-blue-400",
       link: "https://t.me/BEK_AIR0"
     },
     {
-      label: "Purp Email",
-      icon: <Mail size={20} />,
-      bg: "hover:bg-purple-500/10",
-      border: "hover:border-purple-400",
-      text: "hover:text-purple-400",
-      shadow: "hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]",
-      glowColor: "from-purple-600 to-fuchsia-400",
-      link: "mailto:azizbekmirzavaliyev31@gmail.com"
+      label: "Resume",
+      subLabel: "Direct Download",
+      icon: <Sparkles size={24} />,
+      text: "text-amber-400",
+      glowColor: "from-amber-500 to-yellow-400",
+      link: "/Azizbek_Mirzavaliyev.pdf"
     },
   ];
 
@@ -247,24 +258,15 @@ export default function Contact() {
           </div>
 
           {/* Right Content: Social Links */}
-          <div className="w-full lg:w-[380px] space-y-4" style={{ transform: "translateZ(100px)" }}>
+          <div className="w-full lg:w-[450px] flex flex-col gap-3" style={{ transform: "translateZ(100px)" }}>
             {socialButtons.map((btn, i) => (
-              <MagneticLink
+              <SocialCard
                 key={i}
                 href={btn.link}
                 btn={btn}
-                className={`group w-full flex items-center justify-between p-5 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all duration-300 backdrop-blur-xl shadow-xl hover:shadow-2xl`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl bg-white/5 group-hover:scale-110 transition-transform duration-500 ${btn.text}`}>
-                    {btn.icon}
-                  </div>
-                  <span className="text-gray-200 font-medium tracking-tight group-hover:text-white transition-colors">{btn.label}</span>
-                </div>
-                <div className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300">
-                  <ExternalLink size={16} className={btn.text} />
-                </div>
-              </MagneticLink>
+                {/* Internal layout is now inside SocialCard */}
+              </SocialCard>
             ))}
           </div>
         </div>
@@ -303,8 +305,70 @@ export default function Contact() {
         </div>
       </div>
 
+      {/* Resume Section */}
+      <div className="w-full max-w-[1100px] mt-32 px-4 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-4">
+            <Sparkles size={12} />
+            CURRICULUM VITAE
+          </div>
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tighter">
+            Mening <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Rezumeyim</span>
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light">
+            Tajribam, ko'nikmalarim va yutuqlarim haqida batafsil ma'lumot olish uchun quyidagi rezumeni ko'rishingiz yoki yuklab olishingiz mumkin.
+          </p>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
+          className="relative aspect-[1/1.414] w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl group"
+        >
+          {/* Canva Embed Viewer */}
+          <iframe 
+            src="https://www.canva.com/design/DAHEjuRHL7c/view?embed" 
+            className="w-full h-full border-none"
+            title="Azizbek Mirzavaliyev Resume"
+            allowFullScreen
+          />
+          
+          {/* Glassmorphism Controls */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-4 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl z-30 shadow-2xl">
+            <a 
+              href="https://www.canva.com/design/DAHEjuRHL7c/view?utm_content=DAHEjuRHL7c&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center gap-2"
+            >
+              <ExternalLink size={18} />
+              To'liq ko'rish (Canva)
+            </a>
+            <a 
+              href="/Azizbek_Mirzavaliyev.pdf" 
+              download="Azizbek_Mirzavaliyev_Resume.pdf"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2"
+            >
+              <Send size={18} className="rotate-90" />
+              Yuklab olish
+            </a>
+          </div>
+
+          {/* Decorative Corner */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-500/20 to-transparent pointer-events-none" />
+        </motion.div>
+      </div>
+
       {/* Bottom Subtle Footer */}
-      <div className="mt-20 text-gray-600 text-[10px] font-mono tracking-widest uppercase flex items-center gap-4">
+      <div className="mt-32 text-gray-600 text-[10px] font-mono tracking-widest uppercase flex items-center gap-4">
         <span>Design by Antigravity AI</span>
         <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
         <span>© 2024 Azizbek</span>
