@@ -159,7 +159,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-[100dvh] bg-[#050810] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-16 scroll-smooth">
+    <div className="min-h-[100dvh] bg-[#050810] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-8 sm:py-16 scroll-smooth">
       <ParticleBackground />
 
       {/* Hero Background Glows */}
@@ -261,17 +261,17 @@ export default function Contact() {
       </motion.div>
 
       {/* Marquee Section */}
-      <div className="w-full mt-32 relative z-10">
+      <div className="w-full mt-16 sm:mt-32 relative z-10">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="text-center mb-10"
+          className="text-center mb-6 sm:mb-10"
         >
           <h3 className="text-gray-500 uppercase tracking-[0.4em] text-[10px] font-bold">Asosiy Texnologiyalar</h3>
           <div className="h-[1px] w-20 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto mt-4"></div>
         </motion.div>
 
-        <div className="relative w-full overflow-hidden flex items-center py-10 bg-white/[0.01] border-y border-white/[0.05]">
+        <div className="relative w-full overflow-hidden flex items-center py-6 sm:py-10 bg-white/[0.01] border-y border-white/[0.05]">
           <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-[#050810] to-transparent z-20 pointer-events-none" />
           <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-[#050810] to-transparent z-20 pointer-events-none" />
 
@@ -294,13 +294,13 @@ export default function Contact() {
       </div>
 
       {/* Resume Section */}
-      <div className="w-full max-w-[1100px] mt-32 px-4 relative z-20">
+      <div className="w-full max-w-[1100px] mt-16 sm:mt-32 px-4 relative z-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-4">
             <Sparkles size={12} />
@@ -356,7 +356,7 @@ export default function Contact() {
       </div>
 
       {/* Bottom Subtle Footer */}
-      <div className="mt-32 text-gray-600 text-[10px] font-mono tracking-widest uppercase flex items-center gap-4">
+      <div className="mt-16 sm:mt-32 text-gray-600 text-[10px] font-mono tracking-widest uppercase flex items-center gap-4">
         <span>Design by Antigravity AI</span>
         <span className="w-1 h-1 bg-gray-700 rounded-full"></span>
         <span>© 2024 Azizbek</span>
