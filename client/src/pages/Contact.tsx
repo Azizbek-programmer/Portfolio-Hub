@@ -55,7 +55,7 @@ const SocialCard = ({ children, href, btn }: { children: React.ReactNode, href: 
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      className="group relative flex items-center justify-between p-6 rounded-3xl bg-[#080a12] border border-white/[0.04] transition-all duration-500 hover:border-white/10 overflow-hidden"
+      className="group relative flex items-center justify-between p-2.5 pl-3 pr-6 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-2xl transition-all duration-500 hover:bg-white/[0.07] hover:border-white/20 overflow-hidden"
     >
       {/* Spotlight Effect */}
       <motion.div
@@ -63,32 +63,25 @@ const SocialCard = ({ children, href, btn }: { children: React.ReactNode, href: 
         style={{
           background: useTransform(
             [mouseX, mouseY],
-            ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 40%)`
+            ([x, y]) => `radial-gradient(150px circle at ${x}px ${y}px, rgba(255,255,255,0.1), transparent 80%)`
           ),
         }}
       />
 
-      {/* Brand Accent Glow */}
-      <div className={`absolute -right-4 -top-4 w-24 h-24 blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-br ${btn.glowColor}`} />
-
-      <div className="flex items-center gap-6 relative z-10">
-        <div className={`w-14 h-14 flex items-center justify-center rounded-2xl bg-white/[0.03] border border-white/[0.05] transition-all duration-500 group-hover:scale-105 group-hover:bg-white/[0.07] ${btn.text}`}>
+      <div className="flex items-center gap-4 relative z-10">
+        <div className={`w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 group-hover:scale-110 ${btn.text}`}>
           {btn.icon}
         </div>
-        <div className="flex flex-col gap-0.5">
-          <span className="text-lg font-semibold text-gray-400 group-hover:text-white transition-colors duration-500 tracking-tight">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+          <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors duration-500 tracking-wide">
             {btn.label}
-          </span>
-          <span className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.2em]">
-            {btn.subLabel}
           </span>
         </div>
       </div>
 
-      <div className="relative z-10 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white/[0.03] border border-white/[0.05] text-gray-500 group-hover:text-white transition-colors">
-          <ExternalLink size={16} />
-        </div>
+      <div className="relative z-10 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-500">
+        <ExternalLink size={14} className="text-gray-500 group-hover:text-white" />
       </div>
     </motion.a>
   );
@@ -129,41 +122,36 @@ export default function Contact() {
 
   const socialButtons = [
     {
-      label: "Portfolio",
-      subLabel: "Showcase Hub",
-      icon: <SiFramer size={24} />,
+      label: "Portfolio Hub",
+      icon: <SiFramer size={18} />,
       text: "text-emerald-400",
       glowColor: "from-emerald-500 to-teal-400",
       link: "https://portfolio-hub-lime-xi.vercel.app/"
     },
     {
-      label: "GitHub",
-      subLabel: "Open Source",
-      icon: <SiGithub size={24} />,
+      label: "GitHub Profile",
+      icon: <SiGithub size={18} />,
       text: "text-white",
       glowColor: "from-gray-400 to-white",
       link: "https://github.com/Azizbek-programmer"
     },
     {
-      label: "LinkedIn",
-      subLabel: "Professional",
-      icon: <Linkedin size={24} />,
-      text: "text-blue-400",
+      label: "LinkedIn Professional",
+      icon: <Linkedin size={18} />,
+      text: "text-[#0A66C2]",
       glowColor: "from-blue-600 to-blue-400",
       link: "https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/"
     },
     {
-      label: "Telegram",
-      subLabel: "Contact Me",
-      icon: <Send size={24} />,
-      text: "text-sky-400",
+      label: "Telegram Channel",
+      icon: <Send size={18} />,
+      text: "text-[#229ED9]",
       glowColor: "from-sky-500 to-blue-400",
       link: "https://t.me/BEK_AIR0"
     },
     {
-      label: "Resume",
-      subLabel: "Direct Download",
-      icon: <Sparkles size={24} />,
+      label: "Resume Download",
+      icon: <Sparkles size={18} />,
       text: "text-amber-400",
       glowColor: "from-amber-500 to-yellow-400",
       link: "/Azizbek_Mirzavaliyev.pdf"
@@ -258,7 +246,7 @@ export default function Contact() {
           </div>
 
           {/* Right Content: Social Links */}
-          <div className="w-full lg:w-[450px] flex flex-col gap-3" style={{ transform: "translateZ(100px)" }}>
+          <div className="w-full lg:w-[400px] flex flex-col gap-2.5" style={{ transform: "translateZ(100px)" }}>
             {socialButtons.map((btn, i) => (
               <SocialCard
                 key={i}
