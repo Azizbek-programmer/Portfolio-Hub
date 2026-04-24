@@ -218,18 +218,18 @@ export default function Contact() {
                 className="flex items-center justify-center lg:justify-start gap-3"
               >
                 <span className="h-[1px] w-8 bg-blue-500"></span>
-                <span className="text-blue-400 font-mono text-sm tracking-widest uppercase">Senior Web Developer</span>
+                <span className="text-blue-400 font-mono text-sm tracking-widest uppercase">Full Stack Developer</span>
               </motion.div>
 
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white tracking-tighter leading-[1.1] md:leading-[0.9]">
-                Professional <br className="hidden sm:block" />
+                Build <br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 inline-block mt-2">
-                  Solutions.
+                  Better.
                 </span>
               </h1>
 
-              <p className="text-gray-400 text-lg md:text-xl max-w-md mx-auto lg:mx-0 font-light leading-relaxed">
-                Men yuqori darajadagi, masshtablanuvchi va foydalanuvchilar uchun qulay tizimlar yarataman. Har bir loyiha - bu san'at va texnologiya uyg'unligi.
+              <p className="text-gray-400 text-lg md:text-xl max-w-xs mx-auto lg:mx-0 font-light leading-relaxed">
+                G'oyalaringizni sifatli kod va samarali yechimlar orqali hayotga tatbiq etaman.
               </p>
             </div>
 
@@ -306,11 +306,11 @@ export default function Contact() {
             <Sparkles size={12} />
             CURRICULUM VITAE
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tighter">
-            Mening <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Rezumeyim</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 sm:mb-6 tracking-tight">
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Resume</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light">
-            Tajribam, ko'nikmalarim va yutuqlarim haqida batafsil ma'lumot olish uchun quyidagi rezumeni ko'rishingiz yoki yuklab olishingiz mumkin.
+          <p className="text-gray-400 text-base md:text-lg max-w-xl mx-auto font-light">
+            Tajribam va ko'nikmalarim bilan qisqacha tanishing.
           </p>
         </motion.div>
 
