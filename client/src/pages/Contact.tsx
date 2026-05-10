@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Github, Linkedin, Send, Mail, ExternalLink, MessageSquare, Sparkles } from "lucide-react";
 import { SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker } from "react-icons/si";
-import profileImage from "@assets/Gemini_Generated_Image_roopwbroopwbroop.png";
+import profileImage from "@assets/profile.jpg";
 
 // --- Components ---
 
@@ -62,33 +62,40 @@ const VisitorCounter = () => {
     
     const fetchCount = async () => {
       try {
+        console.log("Fetching count from Supabase...");
         const { data, error } = await supabase
           .from('stats')
           .select('value')
           .eq('id', 'contact_views')
           .single();
         
-        if (error) throw error;
-        if (data) setCount(data.value);
+        if (error) {
+          console.warn("Jadval topilmadi yoki hali yaratilmagan:", error.message);
+          return;
+        }
+        if (data) {
+          console.log("Count fetched:", data.value);
+          setCount(data.value);
+        }
       } catch (err) {
         console.error("Sanoqni olishda xatolik:", err);
       }
     };
 
     const handleVisit = async () => {
-      if (!hasVisited) {
-        try {
-          // Unikal bo'lsa sanoqni oshirish (RPC funksiyasi orqali)
+      try {
+        if (!hasVisited) {
+          console.log("New unique visit detected. Incrementing...");
           const { error } = await supabase.rpc('increment_visitor_count');
-          if (error) throw error;
-          
-          localStorage.setItem('contact_page_visited', 'true');
-          await fetchCount();
-        } catch (err) {
-          console.error("Sanoqni oshirishda xatolik:", err);
-          await fetchCount(); // Xatolik bo'lsa ham joriy sanoqni ko'rsatish
+          if (error) {
+            console.warn("RPC funksiyasi topilmadi:", error.message);
+          } else {
+            localStorage.setItem('contact_page_visited', 'true');
+          }
         }
-      } else {
+        await fetchCount();
+      } catch (err) {
+        console.error("Visit handler error:", err);
         await fetchCount();
       }
     };
@@ -300,7 +307,7 @@ export default function Contact() {
                   <img
                     src={profileImage}
                     alt="Azizbek"
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-110 hover:scale-100"
+                    className="w-full h-full object-cover transition-all duration-700 scale-110 hover:scale-100"
                   />
                 </div>
                 <ProfileAura />
