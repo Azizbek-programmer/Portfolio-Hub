@@ -4,6 +4,7 @@ import { ExternalLink, MessageSquare, Sparkles, Send, FileText } from "lucide-re
 import MeteorGrid from '../components/MeteorGrid';
 import ProfileAura from '../components/ProfileAura';
 import profileImage from "@assets/profile.jpg";
+import resumeImage from "@assets/Resume.png";
 
 interface DefaultThemeProps {
   socialButtons: any[];
@@ -177,53 +178,20 @@ const DefaultTheme = ({ socialButtons, techSkills, SocialCard }: DefaultThemePro
               />
             </div>
 
-            {/* Mobile: High-Fidelity Visual Resume Snapshot (Zero bugs, 100% visible) */}
-            <div className="block sm:hidden w-full h-full relative overflow-hidden bg-white p-6 shadow-inner transition-transform duration-700 group-hover:scale-[1.02]">
-              {/* Fake Resume Content Structure */}
-              <div className="w-full h-full flex flex-col gap-6 opacity-80 pointer-events-none">
-                {/* Header Mock */}
-                <div className="flex items-center gap-4 border-b border-gray-100 pb-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 flex-shrink-0" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-3 w-32 bg-gray-900 rounded-full" />
-                    <div className="h-2 w-24 bg-blue-400 rounded-full" />
-                  </div>
-                </div>
+            {/* Mobile: High-Quality Image Preview (User's specific Resume.png) */}
+            <div className="block sm:hidden w-full h-full relative overflow-hidden bg-white shadow-inner transition-transform duration-700 group-hover:scale-[1.02]">
+              <img 
+                src={resumeImage} 
+                alt="Azizbek Resume Preview" 
+                className="w-full h-full object-cover object-top"
+                loading="lazy"
+              />
 
-                {/* Body Mock - Experience Blocks */}
-                <div className="flex gap-4 h-full">
-                  {/* Left Column */}
-                  <div className="w-1/3 space-y-4">
-                    <div className="space-y-2">
-                      <div className="h-2 w-full bg-gray-200 rounded-full" />
-                      <div className="h-2 w-4/5 bg-gray-200 rounded-full" />
-                    </div>
-                    <div className="space-y-2 pt-4">
-                      <div className="h-2 w-16 bg-gray-300 rounded-full" />
-                      <div className="flex gap-1 flex-wrap">
-                        {[1,2,3,4].map(i => <div key={i} className="h-4 w-4 bg-blue-50 rounded" />)}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column */}
-                  <div className="flex-1 space-y-6">
-                    {[1, 2, 3].map((i) => (
-                      <div key={i} className="space-y-2">
-                        <div className="h-2.5 w-24 bg-gray-800 rounded-full" />
-                        <div className="h-2 w-full bg-gray-100 rounded-full" />
-                        <div className="h-2 w-5/6 bg-gray-100 rounded-full" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Sophisticated Glass Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent flex flex-col items-center justify-end pb-28 md:pb-36 p-6 text-center">
-                <div className="bg-white/80 backdrop-blur-md px-6 py-3 rounded-2xl border border-gray-200/50 shadow-xl flex items-center gap-3">
-                  <FileText size={20} className="text-blue-600" />
-                  <span className="text-sm font-bold text-gray-900 tracking-tight">Azizbek_Mirzavaliyev.pdf</span>
+              {/* Sophisticated Glass Overlay for contrast */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-28 p-6 text-center">
+                <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 shadow-xl flex items-center gap-2">
+                  <FileText size={16} className="text-blue-400" />
+                  <span className="text-xs font-medium text-white tracking-tight">Azizbek_Mirzavaliyev.pdf</span>
                 </div>
               </div>
             </div>
