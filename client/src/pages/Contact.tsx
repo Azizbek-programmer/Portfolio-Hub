@@ -1,8 +1,9 @@
-import React, { useState, useMemo, lazy, Suspense, memo } from "react";
+import React, { useState, useMemo, lazy, Suspense, memo, useEffect } from "react";
 import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
 import { Linkedin, Send, ExternalLink, Sparkles } from "lucide-react";
 import { SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker } from "react-icons/si";
 import VisitorCounter from "./Contact/components/VisitorCounter";
+import "./Contact/styles/animations.css";
 
 // --- Lazy Themes ---
 const DefaultTheme = lazy(() => import("./Contact/themes/DefaultTheme"));
@@ -134,6 +135,18 @@ const ThemeSwitcher = memo(({ theme, setTheme }: { theme: Theme; setTheme: (t: T
 
 export default function Contact() {
   const [theme, setTheme] = useState<Theme>("default");
+
+  useEffect(() => {
+    // Hide browser scrollbar only for this page
+    document.documentElement.classList.add('no-scrollbar');
+    document.body.classList.add('no-scrollbar');
+    
+    return () => {
+      // Restore scrollbar when leaving the page
+      document.documentElement.classList.remove('no-scrollbar');
+      document.body.classList.remove('no-scrollbar');
+    };
+  }, []);
 
   return (
     <div className={`min-h-[100dvh] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-8 sm:py-16 transition-all duration-1000 ${
