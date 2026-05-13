@@ -163,48 +163,37 @@ const DefaultTheme = ({ socialButtons, techSkills, SocialCard }: DefaultThemePro
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-          className="relative h-[550px] sm:h-auto sm:aspect-[1/1.414] w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-xl shadow-2xl group touch-pan-y"
+          className="relative w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden border border-white/10 bg-[#111111] shadow-2xl group"
         >
-          {/* Enhanced Mobile vs Desktop Rendering */}
-          <div className="absolute inset-0 z-0">
-            {/* Desktop: High-quality Iframe */}
-            <div className="hidden sm:block w-full h-full">
-              <iframe 
-                src="/Azizbek_Mirzavaliyev.pdf#view=FitH&scrollbar=0&toolbar=0&navpanes=0" 
-                className="w-full h-full border-none rounded-[2rem] pointer-events-auto"
-                title="Azizbek Mirzavaliyev Resume"
-                style={{ overflow: 'hidden' }}
-                loading="lazy"
-              />
-            </div>
-
-            {/* Mobile: High-Quality Image Preview (User's specific Resume.png) */}
-            <div className="block sm:hidden w-full h-full relative overflow-hidden bg-white shadow-inner transition-transform duration-700 group-hover:scale-[1.02]">
-              <img 
-                src={resumeImage} 
-                alt="Azizbek Resume Preview" 
-                className="w-full h-full object-cover object-top"
-                loading="lazy"
-              />
-
-              {/* Sophisticated Glass Overlay for contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col items-center justify-end pb-28 p-6 text-center">
-                <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 shadow-xl flex items-center gap-2">
-                  <FileText size={16} className="text-blue-400" />
-                  <span className="text-xs font-medium text-white tracking-tight">Azizbek_Mirzavaliyev.pdf</span>
-                </div>
-              </div>
-            </div>
+          {/* Unified High-Fidelity Resume Card (Zero bugs, 100% consistent) */}
+          <div className="relative w-full overflow-hidden bg-[#111111] touch-none pointer-events-none select-none">
+            <img 
+              src={resumeImage} 
+              alt="Azizbek Resume" 
+              className="w-full h-auto block"
+              loading="eager"
+            />
+            
+            {/* Subtle Gradient for premium feel on desktop/mobile */}
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10" />
           </div>
 
-          {/* Action Overlay */}
-          <div className="absolute bottom-5 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl z-30 shadow-2xl w-[85%] sm:w-auto">
-            <a href="/Azizbek_Mirzavaliyev.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2 text-sm sm:text-base">
+          {/* Action Buttons Layer - Fixed at bottom for best UX */}
+          <div className="absolute bottom-5 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-40 w-[85%] sm:w-auto">
+            {/* File Info Badge */}
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/70 text-[10px] sm:text-xs">
+              <FileText size={14} />
+              <span>Azizbek_Mirzavaliyev.pdf</span>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl w-full sm:w-auto">
+            <a href="/Azizbek_Mirzavaliyev.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2 text-sm sm:text-base pointer-events-auto">
               <ExternalLink size={18} /> To'liq ko'rish
             </a>
-            <a href="/Azizbek_Mirzavaliyev.pdf" download="Azizbek_Mirzavaliyev_Resume.pdf" className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-sm sm:text-base">
+            <a href="/Azizbek_Mirzavaliyev.pdf" download="Azizbek_Mirzavaliyev_Resume.pdf" className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 text-sm sm:text-base pointer-events-auto">
               <Send size={18} className="rotate-90" /> Yuklab olish
             </a>
+            </div>
           </div>
         </motion.div>
       </div>
