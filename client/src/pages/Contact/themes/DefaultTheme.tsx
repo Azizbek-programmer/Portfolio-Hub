@@ -10,9 +10,11 @@ interface DefaultThemeProps {
   socialButtons: any[];
   techSkills: any[];
   SocialCard: any;
+  resumeImage?: string;
 }
 
-const DefaultTheme = ({ socialButtons, techSkills, SocialCard }: DefaultThemeProps) => {
+const DefaultTheme = ({ socialButtons, techSkills, SocialCard, resumeImage: propResumeImage }: DefaultThemeProps) => {
+  const displayImage = propResumeImage || resumeImage;
   // 3D Tilt Effect - Only active on desktop
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -168,10 +170,12 @@ const DefaultTheme = ({ socialButtons, techSkills, SocialCard }: DefaultThemePro
           {/* Unified High-Fidelity Resume Card (Zero bugs, 100% consistent) */}
           <div className="relative w-full overflow-hidden bg-[#111111] touch-none pointer-events-none select-none">
             <img 
-              src={resumeImage} 
+              src={displayImage} 
               alt="Azizbek Resume" 
               className="w-full h-auto block"
               loading="eager"
+              fetchPriority="high"
+              decoding="sync"
             />
             
             {/* Subtle Gradient for premium feel on desktop/mobile */}

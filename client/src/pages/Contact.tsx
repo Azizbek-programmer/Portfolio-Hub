@@ -4,6 +4,7 @@ import { Linkedin, Send, ExternalLink, Sparkles } from "lucide-react";
 import { SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker } from "react-icons/si";
 import VisitorCounter from "./Contact/components/VisitorCounter";
 import "./Contact/styles/animations.css";
+import resumeImage from "@assets/Resume.png";
 
 // --- Lazy Themes ---
 const DefaultTheme = lazy(() => import("./Contact/themes/DefaultTheme"));
@@ -169,6 +170,7 @@ export default function Contact() {
                 socialButtons={SOCIAL_BUTTONS} 
                 techSkills={TECH_SKILLS} 
                 SocialCard={SocialCard} 
+                resumeImage={resumeImage}
               />
             )}
             {theme === "hacker" && (
