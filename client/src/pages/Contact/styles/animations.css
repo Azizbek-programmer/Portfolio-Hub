@@ -134,3 +134,34 @@
   0% { transform: translate3d(0, -100%, 0); }
   100% { transform: translate3d(0, 1000%, 0); }
 }
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-inner {
+  display: flex;
+  gap: 4rem;
+  animation: marquee 40s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@media (min-width: 768px) {
+  .marquee-inner {
+    gap: 8rem;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
