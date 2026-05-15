@@ -9,9 +9,7 @@ import resumeImage from "@assets/Resume.png";
 // --- Lazy Themes ---
 const DefaultTheme = lazy(() => import("./Contact/themes/DefaultTheme"));
 const HackerTheme = lazy(() => import("./Contact/themes/HackerTheme"));
-const LuxuryTheme = lazy(() => import("./Contact/themes/LuxuryTheme"));
-
-type Theme = "default" | "hacker" | "luxury";
+type Theme = "default" | "hacker";
 
 // --- Static Data ---
 const TECH_SKILLS = [SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker];
@@ -117,7 +115,7 @@ const ThemeSwitcher = memo(({ theme, setTheme }: { theme: Theme; setTheme: (t: T
       animate={{ opacity: 1, y: 0 }}
       className="fixed top-6 right-6 z-[100] flex items-center gap-1 p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
     >
-      {(["default", "hacker", "luxury"] as Theme[]).map((t) => (
+      {(["default", "hacker"] as Theme[]).map((t) => (
         <button
           key={t}
           onClick={() => setTheme(t)}
@@ -150,9 +148,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <div className={`min-h-[100dvh] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-8 sm:py-16 transition-all duration-1000 ${
-      theme === "luxury" ? "bg-[#0a0a0a]" : "bg-[#050810]"
-    }`}>
+    <div className={`min-h-[100dvh] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-8 sm:py-16 transition-all duration-1000 bg-[#050810]`}>
       <ThemeSwitcher theme={theme} setTheme={setTheme} />
 
       <AnimatePresence mode="wait">
@@ -176,15 +172,12 @@ export default function Contact() {
             {theme === "hacker" && (
               <HackerTheme socialButtons={SOCIAL_BUTTONS} />
             )}
-            {theme === "luxury" && (
-              <LuxuryTheme socialButtons={SOCIAL_BUTTONS} />
-            )}
           </Suspense>
         </motion.div>
       </AnimatePresence>
 
       {/* Footer - Isolated to prevent Theme remount impact */}
-      {theme !== "luxury" && theme !== "hacker" && (
+      {theme !== "hacker" && (
         <div className="mt-16 sm:mt-32 text-[10px] font-mono tracking-widest uppercase flex items-center gap-4 text-gray-600">
           <span>Design by Antigravity AI</span>
           <span className="w-1 h-1 rounded-full bg-gray-700"></span>

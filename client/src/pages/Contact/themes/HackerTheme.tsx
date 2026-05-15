@@ -128,51 +128,95 @@ const HackerTheme = ({ socialButtons }: HackerThemeProps) => {
 
           <div className="grid md:grid-cols-2 gap-12">
             <motion.div 
-              whileHover={{ y: -10 }}
-              className="p-10 border border-[#00ff00]/30 bg-[#00ff00]/5 space-y-6 relative group"
+              whileHover={{ y: -5 }}
+              className="p-10 border border-[#00ff00]/30 bg-black/60 relative group overflow-hidden"
             >
-              <div className="absolute -top-[1px] -left-[1px] w-8 h-8 border-t-2 border-l-2 border-[#00ff00]" />
-              <div className="flex items-center justify-between">
-                <h4 className="text-[#00ff00] text-sm font-black uppercase tracking-widest">Main Dossier</h4>
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-[#00ff00]/30 z-[20] shadow-[0_0_10px_#00ff00] opacity-0 group-hover:opacity-100" style={{ animation: 'laser 3s linear infinite' }} />
+              <div className="absolute inset-0 bg-[#00ff00]/[0.02] pointer-events-none" />
+              <div className="absolute -top-[1px] -left-[1px] w-12 h-12 border-t-2 border-l-2 border-[#00ff00]" />
+              <div className="absolute -bottom-[1px] -right-[1px] w-12 h-12 border-b-2 border-r-2 border-[#00ff00]/40" />
+              
+              <div className="flex items-center justify-between mb-8">
+                <div className="space-y-1">
+                  <h4 className="text-[#00ff00] text-xs font-black uppercase tracking-[0.3em]">Main Dossier</h4>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-[#00ff00] animate-pulse" />
+                    <span className="text-[8px] text-[#00ff00]/60 uppercase tracking-widest font-mono">Status: Authorized</span>
+                  </div>
+                </div>
                 <Sparkles size={16} className="text-[#00ff00] animate-pulse" />
               </div>
-              <p className="text-[11px] text-[#00ff00]/50 font-mono leading-relaxed">
-                Complete technical overview, architectural patterns, and full-stack performance metrics.
+
+              <div className="space-y-4 mb-8 font-mono">
+                <div className="flex justify-between border-b border-[#00ff00]/10 pb-2">
+                  <span className="text-[9px] text-[#00ff00]/40 uppercase">Architecture:</span>
+                  <span className="text-[9px] text-[#00ff00]">DISTRIBUTED_CORE</span>
+                </div>
+                <div className="flex justify-between border-b border-[#00ff00]/10 pb-2">
+                  <span className="text-[9px] text-[#00ff00]/40 uppercase">Security:</span>
+                  <span className="text-[9px] text-[#00ff00]">AES-256-GCM</span>
+                </div>
+                <div className="flex justify-between border-b border-[#00ff00]/10 pb-2">
+                  <span className="text-[9px] text-[#00ff00]/40 uppercase">Uptime:</span>
+                  <span className="text-[9px] text-[#00ff00]">99.999%</span>
+                </div>
+              </div>
+
+              <p className="text-[10px] text-[#00ff00]/50 font-mono leading-relaxed mb-8">
+                &gt; Accessing encrypted technical payload. Validating biometric signatures... Success.
               </p>
-              <a href="/Azizbek_Mirzavaliyev.pdf" download className="block w-full text-center py-5 bg-[#00ff00] text-black font-black text-xs hover:bg-black hover:text-[#00ff00] border border-[#00ff00] transition-all duration-300">
-                DOWNLOAD_PAYLOAD.BIN
+
+              <a href="/Azizbek_Mirzavaliyev.pdf" download className="relative block w-full text-center py-6 bg-transparent text-[#00ff00] font-black text-xs group-hover:bg-[#00ff00] group-hover:text-black border border-[#00ff00] transition-all duration-500 overflow-hidden uppercase tracking-[0.2em]">
+                <span className="relative z-10">Download_Payload.bin</span>
+                <div className="absolute inset-0 bg-[#00ff00] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
               </a>
             </motion.div>
 
-          <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-[#00ff00]/20 pb-4">
-                <span className="text-[#00ff00]/40 text-[10px] font-mono uppercase tracking-[0.3em]">Network Traffic</span>
-                <div className="flex gap-1">
-                  {[1,2,3,4].map(i => (
-                    <div 
-                      key={i} 
-                      className="w-1 bg-[#00ff00]" 
-                      style={{ 
-                        animation: `barHeight 0.5s ease-in-out infinite alternate ${i * 0.1}s`,
-                        willChange: 'height'
-                      }} 
-                    />
-                  ))}
+            {/* Enhanced Terminal/Metrics Section */}
+            <div className="space-y-8 flex flex-col justify-between">
+              <div className="border border-[#00ff00]/20 bg-black/40 p-8 relative overflow-hidden flex-1">
+                <div className="flex items-center justify-between border-b border-[#00ff00]/20 pb-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-[#00ff00] animate-ping" />
+                    <span className="text-[#00ff00]/60 text-[9px] font-mono uppercase tracking-[0.3em]">Live Terminal</span>
+                  </div>
+                  <div className="text-[9px] text-[#00ff00]/30 font-mono">PORT: 8080</div>
                 </div>
-                <style dangerouslySetInnerHTML={{ __html: `
-                  @keyframes barHeight {
-                    0% { height: 4px; }
-                    100% { height: 16px; }
-                  }
-                `}} />
+                
+                <div className="space-y-4 font-mono text-[10px] leading-relaxed">
+                  <div className="text-[#00ff00]/80 flex gap-2">
+                    <span className="text-[#00ff00]/30">root@core:~$</span>
+                    <span>initiate --scan</span>
+                  </div>
+                  <div className="text-[#00ff00]/60 flex gap-2">
+                    <span className="text-[#00ff00]/30">&gt;</span>
+                    <span className="text-[#00ff00] terminal-cursor">Scanning network nodes... [OK]</span>
+                  </div>
+                  <div className="text-[#00ff00]/60 flex gap-2">
+                    <span className="text-[#00ff00]/30">&gt;</span>
+                    <span>Establishing secure tunnel... [OK]</span>
+                  </div>
+                  <div className="text-[#00ff00]/30 text-[9px] space-y-1 pt-4 opacity-50">
+                    <div>[{new Date().toLocaleTimeString()}] INBOUND_CONNECTION: 192.168.1.42</div>
+                    <div>[{new Date().toLocaleTimeString()}] HANDSHAKE_PROTOCOL: COMPLETED</div>
+                    <div className="animate-pulse">[{new Date().toLocaleTimeString()}] LISTENING_FOR_PAYLOAD...</div>
+                  </div>
+                </div>
               </div>
-              <div className="space-y-4 font-mono text-[9px] text-[#00ff00]/30">
-                <div className="flex justify-between"><span>CPU_LOAD:</span> <span className="text-[#00ff00]">2.4%</span></div>
-                <div className="flex justify-between"><span>UPTIME:</span> <span className="text-[#00ff00]">99.99%</span></div>
-                <div className="flex justify-between"><span>LATENCY:</span> <span className="text-[#00ff00]">12ms</span></div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-6 border border-[#00ff00]/10 bg-[#00ff00]/5 group hover:bg-[#00ff00]/10 transition-colors">
+                  <div className="text-[#00ff00]/40 text-[9px] uppercase tracking-widest mb-2">CPU_LOAD</div>
+                  <div className="text-[#00ff00] text-2xl font-black tracking-tighter">2.4<span className="text-xs ml-1 opacity-50">%</span></div>
+                </div>
+                <div className="p-6 border border-[#00ff00]/10 bg-[#00ff00]/5 group hover:bg-[#00ff00]/10 transition-colors">
+                  <div className="text-[#00ff00]/40 text-[9px] uppercase tracking-widest mb-2">LATENCY</div>
+                  <div className="text-[#00ff00] text-2xl font-black tracking-tighter">12<span className="text-xs ml-1 opacity-50">ms</span></div>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
 
         {/* Security Status Dashboard */}
