@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, CalendarDays, TrendingUp } from "lucide-react";
 
 interface YearProgressModalProps {
   isOpen: boolean;
@@ -8,53 +8,25 @@ interface YearProgressModalProps {
 }
 
 export default function YearProgressModal({ isOpen, onClose }: YearProgressModalProps) {
-  // Prevent scrolling when modal is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    if (isOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "unset";
+    return () => { document.body.style.overflow = "unset"; };
   }, [isOpen]);
 
-  const {
-    year,
-    daysPassed,
-    totalDays,
-    daysLeft,
-    percentage,
-  } = useMemo(() => {
+  const { year, daysPassed, totalDays, daysLeft, percentage } = useMemo(() => {
     const now = new Date();
     const currentYear = now.getFullYear();
     const startOfYear = new Date(currentYear, 0, 1);
     const endOfYear = new Date(currentYear + 1, 0, 1);
-    
-    // Calculate total days (handles leap years)
     const msInDay = 1000 * 60 * 60 * 24;
     const totalDays = Math.round((endOfYear.getTime() - startOfYear.getTime()) / msInDay);
-    
-    // Calculate days passed
     const daysPassed = Math.floor((now.getTime() - startOfYear.getTime()) / msInDay);
-    
-    // Calculate remaining
     const daysLeft = totalDays - daysPassed;
-    
-    // Calculate percentage
-    const percentage = ((daysPassed / totalDays) * 100).toFixed(2);
-    
-    return {
-      year: currentYear,
-      daysPassed,
-      totalDays,
-      daysLeft,
-      percentage
-    };
+    const percentage = ((daysPassed / totalDays) * 100).toFixed(1);
+    return { year: currentYear, daysPassed, totalDays, daysLeft, percentage };
   }, []);
 
-  // Generate dots array
   const dots = Array.from({ length: totalDays }, (_, i) => i < daysPassed);
 
   return (
@@ -64,98 +36,95 @@ export default function YearProgressModal({ isOpen, onClose }: YearProgressModal
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-[#050810]/80 backdrop-blur-sm"
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#02040A]/90 backdrop-blur-md"
           onClick={onClose}
         >
           <motion.div
-            initial={{ clipPath: "circle(0% at 100% 0%)", opacity: 0, scale: 0.95 }}
-            animate={{ clipPath: "circle(150% at 100% 0%)", opacity: 1, scale: 1 }}
-            exit={{ clipPath: "circle(0% at 100% 0%)", opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.85, y: 60 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
             transition={{ 
-              duration: 0.7, 
-              ease: [0.22, 1, 0.36, 1], // Custom easing for liquid smooth feel
+              duration: 0.8, 
+              ease: [0.16, 1, 0.3, 1] // Very smooth, premium Apple-like easing
             }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[600px] aspect-[4/5] sm:aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 bg-[#0a0f1a] transform-gpu"
+            className="relative w-full max-w-[640px] rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-b from-white/[0.05] to-transparent border border-white/10 shadow-[0_0_80px_-20px_rgba(59,130,246,0.3)] overflow-hidden transform-gpu"
           >
-            {/* Background Glows (Static, no pointer events, purely CSS) */}
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[100px] rounded-full transform -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 blur-[100px] rounded-full transform translate-x-1/3 translate-y-1/3 pointer-events-none" />
+            {/* Ambient Premium Glows inside the card */}
+            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-500/20 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-indigo-500/20 blur-[100px] rounded-full pointer-events-none" />
             
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-6 right-6 z-[100] p-2.5 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all cursor-pointer group hover:scale-110 active:scale-95 transform-gpu"
-            >
-              <X size={20} className="group-hover:rotate-90 transition-transform duration-500" />
-            </button>
+            <div className="relative z-10 p-6 sm:p-10 flex flex-col h-full">
+              {/* Top Navigation / Close */}
+              <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-400 text-xs sm:text-sm font-medium tracking-wide">
+                  <CalendarDays size={14} />
+                  <span>Time Tracking</span>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="p-2 sm:p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors duration-300 transform-gpu active:scale-95"
+                >
+                  <X size={18} />
+                </button>
+              </div>
 
-            <div className="relative z-10 flex flex-col h-full p-8 sm:p-12">
-              {/* Header */}
+              {/* Main Content (Staggered Entrance) */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="flex justify-between items-end mb-8"
+                transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col flex-1"
               >
-                <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
-                  {year} in Days
-                </h2>
-                <div className="text-xl sm:text-3xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 tracking-wide">
-                  {percentage}%
+                {/* Header Section */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 sm:gap-0 mb-10">
+                  <div>
+                    <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-2">
+                      Year {year}
+                    </h2>
+                    <p className="text-gray-400 text-sm sm:text-base">Visualizing the days that have passed.</p>
+                  </div>
+                  <div className="flex flex-col items-start sm:items-end">
+                    <div className="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-400">
+                      {percentage}%
+                    </div>
+                    <div className="flex items-center gap-1.5 text-blue-400 text-xs font-semibold uppercase tracking-widest mt-1">
+                      <TrendingUp size={12} />
+                      Completed
+                    </div>
+                  </div>
+                </div>
+
+                {/* The 365 Grid - Rendered completely static for zero lag, animated entirely via the parent motion.div */}
+                <div className="w-full bg-black/20 rounded-2xl p-4 sm:p-6 border border-white/5 shadow-inner">
+                  <div className="flex flex-wrap gap-[3px] sm:gap-1 md:gap-[5px] justify-center content-start">
+                    {dots.map((isPassed, index) => (
+                      <div
+                        key={index}
+                        className={`
+                          w-[4px] h-[4px] sm:w-[6px] sm:h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300
+                          ${isPassed 
+                            ? 'bg-gradient-to-br from-blue-400 to-indigo-500 shadow-[0_0_6px_rgba(96,165,250,0.8)] scale-110' 
+                            : 'bg-white/10'
+                          }
+                        `}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer Stats */}
+                <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
+                  <div className="text-gray-400 text-sm sm:text-base">
+                    Passed: <span className="text-white font-medium">{daysPassed} days</span>
+                  </div>
+                  <div className="text-gray-400 text-sm sm:text-base">
+                    Remaining: <span className="text-white font-medium">{daysLeft} days</span>
+                  </div>
                 </div>
               </motion.div>
-
-              {/* Dots Grid - Rendered as standard divs for 60fps performance */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="flex-1 flex items-center justify-center"
-              >
-                <div className="flex flex-wrap gap-[3px] sm:gap-1 md:gap-[5px] justify-center content-center w-full max-w-[500px]">
-                  {dots.map((isPassed, index) => (
-                    <div
-                      key={index}
-                      className={`
-                        w-[6px] h-[6px] sm:w-[8px] sm:h-[8px] md:w-[10px] md:h-[10px] rounded-full
-                        transition-colors duration-1000 transform-gpu
-                        ${isPassed 
-                          ? 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]' 
-                          : 'border border-white/20 bg-transparent'
-                        }
-                      `}
-                      style={{
-                        animation: `fadeDot 0.5s ease-out forwards`,
-                        animationDelay: `${index * 0.002}s`,
-                        opacity: 0
-                      }}
-                    />
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Footer */}
-              <div className="mt-8 flex justify-center">
-                <motion.div 
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                  className="text-2xl sm:text-3xl font-medium text-white/90 tracking-wider"
-                >
-                  {daysLeft} Days Left
-                </motion.div>
-              </div>
             </div>
-            
-            {/* Global style for high-performance dot animation */}
-            <style>{`
-              @keyframes fadeDot {
-                from { opacity: 0; transform: scale(0.5); }
-                to { opacity: 1; transform: scale(1); }
-              }
-            `}</style>
           </motion.div>
         </motion.div>
       )}
