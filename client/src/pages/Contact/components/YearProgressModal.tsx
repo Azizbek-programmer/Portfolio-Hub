@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Clock } from "lucide-react";
+import { X } from "lucide-react";
 
 interface RealTimeClockModalProps {
   isOpen: boolean;
@@ -10,13 +10,28 @@ interface RealTimeClockModalProps {
 export default function YearProgressModal({ isOpen, onClose }: RealTimeClockModalProps) {
   const timeRef = useRef<HTMLSpanElement>(null);
   const msRef = useRef<HTMLSpanElement>(null);
-  const dateRef = useRef<HTMLDivElement>(null);
+  const percentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "unset";
     return () => { document.body.style.overflow = "unset"; };
   }, [isOpen]);
+
+  const { year, totalDays, daysPassed, daysLeft, startOfYear, endOfYear } = useMemo(() => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const startOfYear = new Date(currentYear, 0, 1);
+    const endOfYear = new Date(currentYear + 1, 0, 1);
+    const msInDay = 1000 * 60 * 60 * 24;
+    const totalDays = Math.round((endOfYear.getTime() - startOfYear.getTime()) / msInDay);
+    const daysPassed = Math.floor((now.getTime() - startOfYear.getTime()) / msInDay);
+    const daysLeft = totalDays - daysPassed;
+    
+    return { year: currentYear, totalDays, daysPassed, daysLeft, startOfYear, endOfYear };
+  }, []);
+
+  const dots = Array.from({ length: totalDays }, (_, i) => i < daysPassed);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -25,30 +40,32 @@ export default function YearProgressModal({ isOpen, onClose }: RealTimeClockModa
     const updateTime = () => {
       const now = new Date();
       
+      // Update Clock
       if (timeRef.current) {
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
         timeRef.current.textContent = `${hours}:${minutes}:${seconds}`;
       }
-      
       if (msRef.current) {
         const ms = String(now.getMilliseconds()).padStart(3, '0');
         msRef.current.textContent = `.${ms}`;
       }
 
-      if (dateRef.current) {
-        const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        dateRef.current.textContent = now.toLocaleDateString('en-US', options);
+      // Update Live Percentage with high precision
+      if (percentRef.current) {
+        const passedMs = now.getTime() - startOfYear.getTime();
+        const totalMs = endOfYear.getTime() - startOfYear.getTime();
+        const livePercentage = ((passedMs / totalMs) * 100).toFixed(5);
+        percentRef.current.textContent = `${livePercentage}%`;
       }
 
       animationFrameId = requestAnimationFrame(updateTime);
     };
 
-    // requestAnimationFrame ensures 60/120fps smooth updating without lagging the React render cycle
     animationFrameId = requestAnimationFrame(updateTime);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isOpen]);
+  }, [isOpen, startOfYear, endOfYear]);
 
   return (
     <AnimatePresence>
@@ -57,68 +74,85 @@ export default function YearProgressModal({ isOpen, onClose }: RealTimeClockModa
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#02040A]/90 backdrop-blur-xl"
+          transition={{ duration: 0.5 }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#030612]/90 backdrop-blur-xl"
           onClick={onClose}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, y: 60 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[550px] rounded-[2rem] bg-gradient-to-b from-white/[0.05] to-transparent border border-white/10 shadow-[0_0_80px_-20px_rgba(59,130,246,0.3)] overflow-hidden"
+            className="relative w-full max-w-[600px] rounded-[2rem] bg-[#0a0f1a] border border-blue-500/20 shadow-[0_0_80px_-20px_rgba(59,130,246,0.2)] overflow-hidden"
           >
-            {/* Ambient Premium Glows inside the card */}
-            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-500/20 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-purple-500/20 blur-[100px] rounded-full pointer-events-none" />
+            {/* Ambient Background Glows */}
+            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/10 blur-[100px] rounded-full pointer-events-none" />
             
-            <div className="relative z-10 p-8 sm:p-12 flex flex-col items-center">
+            <div className="relative z-10 p-6 sm:p-10 flex flex-col w-full">
+              
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute top-6 right-6 p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors duration-300 transform-gpu active:scale-95"
+                className="absolute top-6 right-6 p-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors duration-300"
               >
                 <X size={18} />
               </button>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-center w-full"
-              >
-                <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-400 text-sm font-semibold tracking-widest uppercase mb-10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
-                  <Clock size={16} />
-                  <span>Real-Time Clock</span>
-                </div>
-
-                {/* The Clock Display */}
-                <div className="flex items-baseline justify-center w-full mt-4 mb-8">
-                  <span 
-                    ref={timeRef} 
-                    className="text-5xl sm:text-7xl md:text-[5.5rem] font-black tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-50 to-blue-200 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
-                    style={{ fontVariantNumeric: 'tabular-nums' }}
-                  >
-                    00:00:00
-                  </span>
-                  <span 
-                    ref={msRef} 
-                    className="text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums text-blue-400 ml-1 sm:ml-2 w-[60px] sm:w-[70px] text-left opacity-80"
-                    style={{ fontVariantNumeric: 'tabular-nums' }}
-                  >
-                    .000
-                  </span>
-                </div>
-
-                {/* Date */}
-                <div 
-                  ref={dateRef}
-                  className="mt-6 px-6 py-3 rounded-2xl bg-black/40 border border-white/5 text-gray-400 text-sm sm:text-base font-medium tracking-widest uppercase shadow-inner"
+              {/* 1. The Live Clock (Top Focus) */}
+              <div className="flex items-baseline justify-center w-full mb-8">
+                <span 
+                  ref={timeRef} 
+                  className="text-4xl sm:text-5xl font-black tabular-nums tracking-tight text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
                 >
-                  Loading date...
+                  00:00:00
+                </span>
+                <span 
+                  ref={msRef} 
+                  className="text-xl sm:text-2xl font-bold tabular-nums text-blue-400 ml-1 w-[50px] text-left opacity-90"
+                >
+                  .000
+                </span>
+              </div>
+
+              {/* 2. Header & Percentage (Emotional Focus) */}
+              <div className="flex justify-between items-end mb-6 w-full">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-wide">
+                  {year} in Days
+                </h2>
+                <div 
+                  ref={percentRef}
+                  className="text-2xl sm:text-3xl font-bold text-blue-400 drop-shadow-[0_0_10px_rgba(96,165,250,0.5)] tabular-nums"
+                >
+                  0.00000%
                 </div>
-              </motion.div>
+              </div>
+
+              {/* 3. The 365 Dots Grid (Visual Representation) */}
+              {/* Exact match to the reference image: filled circles vs empty rings */}
+              <div className="w-full flex flex-wrap gap-[5px] sm:gap-[6px] justify-start content-start mb-10">
+                {dots.map((isPassed, index) => (
+                  <div
+                    key={index}
+                    className={`
+                      rounded-full flex-shrink-0
+                      ${isPassed 
+                        ? 'w-[6px] h-[6px] sm:w-[8px] sm:h-[8px] bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]' 
+                        : 'w-[6px] h-[6px] sm:w-[8px] sm:h-[8px] border border-blue-200/30 bg-transparent'
+                      }
+                    `}
+                  />
+                ))}
+              </div>
+
+              {/* 4. Footer (Days Left Focus) */}
+              <div className="flex justify-center w-full mt-auto">
+                <div className="text-2xl sm:text-3xl font-medium text-gray-300">
+                  <span className="text-white font-bold">{daysLeft}</span> Days Left
+                </div>
+              </div>
+
             </div>
           </motion.div>
         </motion.div>
