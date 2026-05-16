@@ -1,8 +1,9 @@
 import React, { useState, useMemo, lazy, Suspense, memo, useEffect } from "react";
 import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
-import { Linkedin, Send, ExternalLink, Sparkles } from "lucide-react";
+import { Linkedin, Send, ExternalLink, Sparkles, Clock } from "lucide-react";
 import { SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker } from "react-icons/si";
 import VisitorCounter from "./Contact/components/VisitorCounter";
+import YearProgressModal from "./Contact/components/YearProgressModal";
 import "./Contact/styles/animations.css";
 import resumeImage from "@assets/Resume.png";
 
@@ -108,13 +109,21 @@ const SocialCard = memo(({ href, btn }: { href: string, btn: any, index: number 
   );
 });
 
-const ThemeSwitcher = memo(({ theme, setTheme }: { theme: Theme; setTheme: (t: Theme) => void }) => {
+const ThemeSwitcher = memo(({ theme, setTheme, onOpenTime }: { theme: Theme; setTheme: (t: Theme) => void; onOpenTime: () => void }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       className="fixed top-6 right-6 z-[100] flex items-center gap-1 p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
     >
+      <button
+        onClick={onOpenTime}
+        className="px-2.5 py-1.5 rounded-full text-blue-500 hover:bg-white/10 transition-all duration-300 flex items-center group"
+        title="Year Progress"
+      >
+        <Clock size={16} className="group-hover:rotate-180 transition-transform duration-700" />
+      </button>
+      <div className="w-[1px] h-4 bg-white/10 mx-1" />
       {(["default", "hacker"] as Theme[]).map((t) => (
         <button
           key={t}
@@ -134,6 +143,7 @@ const ThemeSwitcher = memo(({ theme, setTheme }: { theme: Theme; setTheme: (t: T
 
 export default function Contact() {
   const [theme, setTheme] = useState<Theme>("default");
+  const [showYearProgress, setShowYearProgress] = useState(false);
 
   useEffect(() => {
     // Hide browser scrollbar only for this page
@@ -149,7 +159,8 @@ export default function Contact() {
 
   return (
     <div className={`min-h-[100dvh] flex flex-col items-center justify-center overflow-x-hidden relative font-sans py-8 sm:py-16 transition-all duration-1000 bg-[#050810]`}>
-      <ThemeSwitcher theme={theme} setTheme={setTheme} />
+      <ThemeSwitcher theme={theme} setTheme={setTheme} onOpenTime={() => setShowYearProgress(true)} />
+      <YearProgressModal isOpen={showYearProgress} onClose={() => setShowYearProgress(false)} />
 
       <AnimatePresence mode="wait">
         <motion.div
