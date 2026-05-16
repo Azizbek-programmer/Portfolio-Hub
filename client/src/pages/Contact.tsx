@@ -14,101 +14,128 @@ type Theme = "default" | "hacker";
 
 // --- Static Data ---
 const TECH_SKILLS = [SiReact, SiTypescript, SiNodedotjs, SiTailwindcss, SiPostgresql, SiJavascript, SiGithub, SiFramer, SiNextdotjs, SiDocker];
-
 const SOCIAL_BUTTONS = [
   {
-    label: "Portfolio Hub",
-    icon: <SiFramer size={18} />,
-    text: "text-emerald-400",
-    glowColor: "from-emerald-500 to-teal-400",
-    link: "https://portfolio-hub-lime-xi.vercel.app/"
+    label: "LinkedIn",
+    icon: <Linkedin size={22} />,
+    text: "text-[#00BFFF]",
+    glowColor: "from-[#0077b5] via-[#00BFFF] to-[#38bdf8]",
+    link: "https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/",
   },
   {
-    label: "GitHub Profile",
-    icon: <SiGithub size={18} />,
-    text: "text-white",
-    glowColor: "from-gray-400 to-white",
-    link: "https://github.com/Azizbek-programmer"
+    label: "GitHub",
+    icon: <SiGithub size={22} />,
+    text: "text-[#c084fc]",
+    glowColor: "from-[#6d28d9] via-[#8b5cf6] to-[#c084fc]",
+    link: "https://github.com/Azizbek-programmer",
   },
   {
-    label: "LinkedIn Professional",
-    icon: <Linkedin size={18} />,
-    text: "text-[#0A66C2]",
-    glowColor: "from-blue-600 to-blue-400",
-    link: "https://www.linkedin.com/in/azizbek-mirzavaliyev-1aa1bb351/"
+    label: "Telegram",
+    icon: <Send size={22} />,
+    text: "text-[#38bdf8]",
+    glowColor: "from-[#0284c7] via-[#0ea5e9] to-[#67e8f9]",
+    link: "https://t.me/BEK_AIR0",
   },
   {
-    label: "Telegram Channel",
-    icon: <Send size={18} />,
-    text: "text-[#229ED9]",
-    glowColor: "from-sky-500 to-blue-400",
-    link: "https://t.me/BEK_AIR0"
+    label: "Portfolio",
+    icon: <SiFramer size={22} />,
+    text: "text-[#f472b6]",
+    glowColor: "from-[#c026d3] via-[#e879f9] to-[#fb7185]",
+    link: "https://portfolio-hub-lime-xi.vercel.app/",
   },
   {
-    label: "Resume Download",
-    icon: <Sparkles size={18} />,
-    text: "text-amber-400",
-    glowColor: "from-amber-500 to-yellow-400",
-    link: "/Azizbek_Mirzavaliyev.pdf"
+    label: "Resume",
+    icon: <Sparkles size={22} />,
+    text: "text-[#fde047]",
+    glowColor: "from-[#ca8a04] via-[#facc15] to-[#fde047]",
+    link: "/Azizbek_Mirzavaliyev.pdf",
   },
 ];
 
 // --- Optimized Components ---
 
-const SocialCard = memo(({ href, btn }: { href: string, btn: any, index: number }) => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const handleMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
-    if (window.innerWidth < 1024) return;
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  };
-
-  const spotlightBg = useTransform(
-    [mouseX, mouseY],
-    ([x, y]) => `radial-gradient(150px circle at ${x}px ${y}px, rgba(255,255,255,0.1), transparent 80%)`
-  );
-
+const SocialCard = memo(({ href, btn, index }: { href: string; btn: any; index: number }) => {
   return (
     <motion.a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      download={href.endsWith('.pdf') ? href.split('/').pop() : undefined}
-      onMouseMove={handleMouseMove}
-      initial={{ opacity: 0, x: 20 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      download={href.endsWith(".pdf") ? href.split("/").pop() : undefined}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative flex items-center justify-between p-2.5 pl-3 pr-6 rounded-full bg-white/[0.03] border border-white/20 backdrop-blur-2xl transition-all duration-500 hover:bg-white/[0.08] hover:border-white/40 overflow-hidden shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]"
+      transition={{
+        duration: 0.55,
+        delay: index * 0.08,
+        ease: "easeOut",
+      }}
+      whileHover={{
+        scale: 1.02,
+      }}
+      className="relative w-full max-w-[460px] h-[68px] rounded-[24px] group overflow-visible"
     >
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-      
-      <motion.div
-        className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: spotlightBg }}
+      {/* OUTER GLOW */}
+      <div
+        className={`absolute inset-0 rounded-[24px] bg-gradient-to-r ${btn.glowColor} opacity-25 blur-2xl group-hover:opacity-40 transition-all duration-500`}
       />
 
-      <div className="flex items-center gap-4 relative z-10">
-        <div className={`w-11 h-11 flex items-center justify-center rounded-full bg-white/5 border border-white/10 transition-all duration-500 group-hover:scale-110 shadow-inner ${btn.text}`}>
-          {btn.icon}
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-          <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-500 tracking-wide">
+      {/* MAIN BORDER */}
+      <div
+        className={`absolute inset-0 rounded-[24px] p-[1.4px] bg-gradient-to-br ${btn.glowColor}`}
+      >
+        {/* INNER BODY */}
+        <div className="relative w-full h-full rounded-[22px] bg-[#06080f]/95 overflow-hidden flex items-center px-6">
+          
+          {/* INSIDE COLOR LIGHT */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-r ${btn.glowColor} opacity-[0.10] group-hover:opacity-[0.16] blur-xl transition-all duration-500`}
+          />
+
+          {/* DARK DEPTH */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.06),transparent_40%)]" />
+
+          {/* BOTTOM SHADOW */}
+          <div className="absolute inset-0 shadow-[inset_0_-25px_40px_rgba(0,0,0,0.8)]" />
+
+          {/* ICON AREA */}
+          <div
+            className={`relative z-10 flex items-center justify-center ${btn.text} drop-shadow-[0_0_18px_currentColor]`}
+          >
+            {btn.icon}
+          </div>
+
+          {/* SEPARATOR */}
+          <div
+            className={`relative z-10 w-[1px] h-7 mx-5 bg-gradient-to-b from-transparent via-white/40 to-transparent`}
+          />
+
+          {/* TEXT */}
+          <span
+            className={`relative z-10 text-[17px] sm:text-[18px] font-medium tracking-wide ${btn.text} drop-shadow-[0_0_10px_currentColor]`}
+          >
             {btn.label}
           </span>
-        </div>
-      </div>
 
-      <div className="relative z-10 opacity-40 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-500">
-        <ExternalLink size={14} className="text-white" />
+          {/* RIGHT SIDE LIGHT */}
+          <div
+            className={`absolute right-[-20%] top-0 h-full w-[45%] bg-gradient-to-l ${btn.glowColor} opacity-[0.13] blur-3xl`}
+          />
+
+          {/* EXTERNAL ICON */}
+          <motion.div
+            whileHover={{ rotate: -12 }}
+            className="ml-auto relative z-10 opacity-40 group-hover:opacity-80 transition-all duration-300"
+          >
+            <ExternalLink
+              size={18}
+              className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
+            />
+          </motion.div>
+        </div>
       </div>
     </motion.a>
   );
 });
-
 const ThemeSwitcher = memo(({ theme, setTheme, onOpenTime }: { theme: Theme; setTheme: (t: Theme) => void; onOpenTime: () => void }) => {
   return (
     <motion.div 
