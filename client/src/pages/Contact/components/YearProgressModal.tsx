@@ -1,33 +1,54 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CalendarDays, TrendingUp } from "lucide-react";
+import { X, Clock } from "lucide-react";
 
-interface YearProgressModalProps {
+interface RealTimeClockModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function YearProgressModal({ isOpen, onClose }: YearProgressModalProps) {
+export default function YearProgressModal({ isOpen, onClose }: RealTimeClockModalProps) {
+  const timeRef = useRef<HTMLSpanElement>(null);
+  const msRef = useRef<HTMLSpanElement>(null);
+  const dateRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (isOpen) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "unset";
     return () => { document.body.style.overflow = "unset"; };
   }, [isOpen]);
 
-  const { year, daysPassed, totalDays, daysLeft, percentage } = useMemo(() => {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const startOfYear = new Date(currentYear, 0, 1);
-    const endOfYear = new Date(currentYear + 1, 0, 1);
-    const msInDay = 1000 * 60 * 60 * 24;
-    const totalDays = Math.round((endOfYear.getTime() - startOfYear.getTime()) / msInDay);
-    const daysPassed = Math.floor((now.getTime() - startOfYear.getTime()) / msInDay);
-    const daysLeft = totalDays - daysPassed;
-    const percentage = ((daysPassed / totalDays) * 100).toFixed(1);
-    return { year: currentYear, daysPassed, totalDays, daysLeft, percentage };
-  }, []);
+  useEffect(() => {
+    if (!isOpen) return;
+    let animationFrameId: number;
 
-  const dots = Array.from({ length: totalDays }, (_, i) => i < daysPassed);
+    const updateTime = () => {
+      const now = new Date();
+      
+      if (timeRef.current) {
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        timeRef.current.textContent = `${hours}:${minutes}:${seconds}`;
+      }
+      
+      if (msRef.current) {
+        const ms = String(now.getMilliseconds()).padStart(3, '0');
+        msRef.current.textContent = `.${ms}`;
+      }
+
+      if (dateRef.current) {
+        const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateRef.current.textContent = now.toLocaleDateString('en-US', options);
+      }
+
+      animationFrameId = requestAnimationFrame(updateTime);
+    };
+
+    // requestAnimationFrame ensures 60/120fps smooth updating without lagging the React render cycle
+    animationFrameId = requestAnimationFrame(updateTime);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isOpen]);
 
   return (
     <AnimatePresence>
@@ -37,91 +58,65 @@ export default function YearProgressModal({ isOpen, onClose }: YearProgressModal
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#02040A]/90 backdrop-blur-md"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#02040A]/90 backdrop-blur-xl"
           onClick={onClose}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 60 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            transition={{ 
-              duration: 0.8, 
-              ease: [0.16, 1, 0.3, 1] // Very smooth, premium Apple-like easing
-            }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[640px] rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-b from-white/[0.05] to-transparent border border-white/10 shadow-[0_0_80px_-20px_rgba(59,130,246,0.3)] overflow-hidden transform-gpu"
+            className="relative w-full max-w-[550px] rounded-[2rem] bg-gradient-to-b from-white/[0.05] to-transparent border border-white/10 shadow-[0_0_80px_-20px_rgba(59,130,246,0.3)] overflow-hidden"
           >
             {/* Ambient Premium Glows inside the card */}
             <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-500/20 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-indigo-500/20 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-purple-500/20 blur-[100px] rounded-full pointer-events-none" />
             
-            <div className="relative z-10 p-6 sm:p-10 flex flex-col h-full">
-              {/* Top Navigation / Close */}
-              <div className="flex justify-between items-center mb-8">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-400 text-xs sm:text-sm font-medium tracking-wide">
-                  <CalendarDays size={14} />
-                  <span>Time Tracking</span>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="p-2 sm:p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors duration-300 transform-gpu active:scale-95"
-                >
-                  <X size={18} />
-                </button>
-              </div>
+            <div className="relative z-10 p-8 sm:p-12 flex flex-col items-center">
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="absolute top-6 right-6 p-2.5 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-colors duration-300 transform-gpu active:scale-95"
+              >
+                <X size={18} />
+              </button>
 
-              {/* Main Content (Staggered Entrance) */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col flex-1"
+                className="flex flex-col items-center w-full"
               >
-                {/* Header Section */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 sm:gap-0 mb-10">
-                  <div>
-                    <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-2">
-                      Year {year}
-                    </h2>
-                    <p className="text-gray-400 text-sm sm:text-base">Visualizing the days that have passed.</p>
-                  </div>
-                  <div className="flex flex-col items-start sm:items-end">
-                    <div className="text-4xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-400">
-                      {percentage}%
-                    </div>
-                    <div className="flex items-center gap-1.5 text-blue-400 text-xs font-semibold uppercase tracking-widest mt-1">
-                      <TrendingUp size={12} />
-                      Completed
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-blue-400 text-sm font-semibold tracking-widest uppercase mb-10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+                  <Clock size={16} />
+                  <span>Real-Time Clock</span>
                 </div>
 
-                {/* The 365 Grid - Rendered completely static for zero lag, animated entirely via the parent motion.div */}
-                <div className="w-full bg-black/20 rounded-2xl p-4 sm:p-6 border border-white/5 shadow-inner">
-                  <div className="flex flex-wrap gap-[3px] sm:gap-1 md:gap-[5px] justify-center content-start">
-                    {dots.map((isPassed, index) => (
-                      <div
-                        key={index}
-                        className={`
-                          w-[4px] h-[4px] sm:w-[6px] sm:h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300
-                          ${isPassed 
-                            ? 'bg-gradient-to-br from-blue-400 to-indigo-500 shadow-[0_0_6px_rgba(96,165,250,0.8)] scale-110' 
-                            : 'bg-white/10'
-                          }
-                        `}
-                      />
-                    ))}
-                  </div>
+                {/* The Clock Display */}
+                <div className="flex items-baseline justify-center w-full mt-4 mb-8">
+                  <span 
+                    ref={timeRef} 
+                    className="text-5xl sm:text-7xl md:text-[5.5rem] font-black tabular-nums text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-50 to-blue-200 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                    style={{ fontVariantNumeric: 'tabular-nums' }}
+                  >
+                    00:00:00
+                  </span>
+                  <span 
+                    ref={msRef} 
+                    className="text-2xl sm:text-3xl md:text-4xl font-bold tabular-nums text-blue-400 ml-1 sm:ml-2 w-[60px] sm:w-[70px] text-left opacity-80"
+                    style={{ fontVariantNumeric: 'tabular-nums' }}
+                  >
+                    .000
+                  </span>
                 </div>
 
-                {/* Footer Stats */}
-                <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-center">
-                  <div className="text-gray-400 text-sm sm:text-base">
-                    Passed: <span className="text-white font-medium">{daysPassed} days</span>
-                  </div>
-                  <div className="text-gray-400 text-sm sm:text-base">
-                    Remaining: <span className="text-white font-medium">{daysLeft} days</span>
-                  </div>
+                {/* Date */}
+                <div 
+                  ref={dateRef}
+                  className="mt-6 px-6 py-3 rounded-2xl bg-black/40 border border-white/5 text-gray-400 text-sm sm:text-base font-medium tracking-widest uppercase shadow-inner"
+                >
+                  Loading date...
                 </div>
               </motion.div>
             </div>
