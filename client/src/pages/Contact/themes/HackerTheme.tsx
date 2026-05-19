@@ -45,19 +45,29 @@ const HackerTheme = ({ socialButtons }: HackerThemeProps) => {
         className="max-w-7xl w-full relative z-10 grid lg:grid-cols-[400px_1fr] gap-0 border border-[#00ff00]/40 bg-black/95 shadow-[0_0_150px_rgba(0,255,0,0.2)] backdrop-blur-sm overflow-hidden transform-gpu"
         style={{ willChange: 'transform, opacity' }}
       >
-        {/* Scanning Laser */}
-        <div 
-          className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#00ff00] to-transparent z-[70] shadow-[0_0_25px_#00ff00] opacity-60"
-          style={{ 
-            animation: 'laser-scan 5s linear infinite',
-            willChange: 'transform'
-          }}
-        />
-
         {/* Sidebar - Terminal Info */}
-        <div className="p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-[#00ff00]/30 space-y-8 md:space-y-12 relative bg-[#001100]/20">
+        <div className="p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-[#00ff00]/30 space-y-8 md:space-y-12 relative bg-[#001100]/20 overflow-hidden">
+          {/* Scanning Laser */}
+          <div 
+            className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-[#00ff00]/60 to-transparent z-[70] shadow-[0_0_15px_rgba(0,255,0,0.4)] opacity-30 pointer-events-none"
+            style={{ 
+              animation: 'laser-scan 5s linear infinite',
+              willChange: 'top, opacity'
+            }}
+          />
           <div className="absolute top-0 right-0 p-4 font-mono text-[8px] text-[#00ff00]/30 animate-pulse">
             ENCRYPTION_STATUS: AES-256-GCM
+          </div>
+          
+          {/* Security Status Header */}
+          <div className="flex flex-col items-center justify-center gap-1.5 pt-4">
+            <div className="flex items-center gap-3 border border-[#00ff00]/30 px-4 py-2 bg-black/80 shadow-[0_0_15px_rgba(0,255,0,0.15)] rounded-sm">
+              <div className="w-2 h-2 bg-[#00ff00] shadow-[0_0_10px_#00ff00] rounded-full animate-pulse" />
+              <div className="flex items-center gap-2">
+                <span className="text-[#00ff00]/60 text-[9px] font-bold tracking-widest uppercase">Security Status:</span>
+                <span className="text-[#00ff00] text-[10px] font-black tracking-widest uppercase">Online</span>
+              </div>
+            </div>
           </div>
           
           <div className="relative group flex justify-center">
@@ -222,61 +232,17 @@ const HackerTheme = ({ socialButtons }: HackerThemeProps) => {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,0,0.05),transparent)] pointer-events-none" />
           
           <div className="max-w-6xl mx-auto relative z-10">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-16 gap-6 md:gap-8">
-              <div className="flex items-center gap-4">
-                <div className="w-4 h-4 bg-[#00ff00] shadow-[0_0_20px_#00ff00] animate-pulse" />
-                <h3 className="text-[#00ff00] font-black text-xl md:text-3xl tracking-[0.3em] uppercase glitch-text" data-text="SECURITY STATUS">Security Status</h3>
-              </div>
-              <div className="border-2 border-[#00ff00] px-6 md:px-8 py-2 text-[#00ff00] text-sm font-black tracking-[0.5em] uppercase shadow-[0_0_20px_rgba(0,255,0,0.3)] bg-black/50">
-                Online
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-[400px_1fr] gap-8 md:gap-16 items-center">
-              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4 md:gap-8">
-                {/* Guard Bots */}
-                <div className="border-2 border-[#00ff00]/40 p-6 md:p-8 bg-black/80 rounded-2xl relative group transition-all duration-500 hover:border-[#00ff00] hover:shadow-[0_0_40px_rgba(0,255,0,0.2)] transform-gpu">
-                  <div className="flex items-center gap-4 border-b border-[#00ff00]/20 pb-4 md:pb-6 mb-4 md:mb-6">
-                    <div className="w-3 h-3 bg-[#00ff00] shadow-[0_0_10px_#00ff00]" />
-                    <span className="text-[#00ff00] text-sm font-black uppercase tracking-[0.2em]">Guard Bots</span>
-                  </div>
-                  <div className="text-4xl md:text-6xl font-black text-[#00ff00] mb-2 md:mb-3 tracking-tighter drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]">124/124</div>
-                  <div className="text-[#00ff00]/50 text-[10px] font-mono tracking-[0.3em] uppercase">[ Running... ]</div>
-                </div>
-
-                {/* Firewall */}
-                <div className="border-2 border-[#00ff00]/40 p-6 md:p-8 bg-black/80 rounded-2xl relative group transition-all duration-500 hover:border-[#00ff00] hover:shadow-[0_0_40px_rgba(0,255,0,0.2)] transform-gpu">
-                  <div className="flex items-center gap-4 border-b border-[#00ff00]/20 pb-4 md:pb-6 mb-4 md:mb-6">
-                    <div className="w-3 h-3 bg-[#00ff00] shadow-[0_0_10px_#00ff00]" />
-                    <span className="text-[#00ff00] text-sm font-black uppercase tracking-[0.2em]">Firewall</span>
-                  </div>
-                  <div className="text-4xl md:text-6xl font-black text-[#00ff00] mb-2 md:mb-3 tracking-tighter drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]">99.9%</div>
-                  <div className="text-[#00ff00]/50 text-[10px] font-mono tracking-[0.3em] uppercase">[ Blocked ]</div>
-                </div>
-
-                {/* HTML Warnings */}
-                <div className="border-2 border-[#f97316]/40 p-6 md:p-8 bg-black/80 rounded-2xl relative group transition-all duration-500 hover:border-[#f97316] hover:shadow-[0_0_40px_rgba(249,115,22,0.2)] transform-gpu">
-                  <div className="flex items-center gap-4 border-b border-[#f97316]/20 pb-4 md:pb-6 mb-4 md:mb-6">
-                    <div className="w-3 h-3 bg-[#f97316] shadow-[0_0_10px_#f97316]" />
-                    <span className="text-[#f97316] text-sm font-black uppercase tracking-[0.2em]">Html Warnings</span>
-                  </div>
-                  <div className="text-4xl md:text-6xl font-black text-[#f97316] mb-2 md:mb-3 tracking-tighter drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]">12042</div>
-                  <div className="text-[#f97316]/50 text-[10px] font-mono tracking-[0.3em] uppercase">[ Accessibility ]</div>
-                </div>
-              </div>
-
-              <div className="flex justify-center items-center relative py-8 lg:py-0 overflow-hidden">
-                <div className="absolute inset-0 bg-[#00ff00]/10 blur-[150px] animate-pulse" />
-                <motion.img 
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/files-blob/public/assets/bot_greenprint-H9JtPdDs77kivcY7EdoYWFriVul1yT.gif" 
-                  alt="Security Bot"
-                  className="w-full h-auto max-w-[320px] md:max-w-[450px] relative z-10 brightness-110 contrast-125 drop-shadow-[0_0_60px_rgba(0,255,0,0.3)] transform-gpu"
-                  loading="lazy"
-                />
-                <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-64 h-4 bg-[#00ff00]/20 blur-3xl animate-pulse" />
-              </div>
+            <div className="flex justify-center items-center relative py-8 overflow-hidden">
+              <div className="absolute inset-0 bg-[#00ff00]/10 blur-[150px] animate-pulse" />
+              <motion.img 
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/files-blob/public/assets/bot_greenprint-H9JtPdDs77kivcY7EdoYWFriVul1yT.gif" 
+                alt="Security Bot"
+                className="w-full h-auto max-w-[320px] md:max-w-[450px] relative z-10 brightness-110 contrast-125 drop-shadow-[0_0_60px_rgba(0,255,0,0.3)] transform-gpu"
+                loading="lazy"
+              />
+              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-64 h-4 bg-[#00ff00]/20 blur-3xl animate-pulse" />
             </div>
           </div>
         </div>
